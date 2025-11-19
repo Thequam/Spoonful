@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #f7f7f7;
+  --color-foreground: #4d4d4d;
+  --color-card: #ffffff;
+  --color-card-foreground: #4d4d4d;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #4d4d4d;
+  --color-primary: #0091a3;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f0c46d;
+  --color-secondary-foreground: #ffffff;
+  --color-muted: #f0f0f0;
+  --color-muted-foreground: #808080;
+  --color-accent: #0091a3;
+  --color-accent-foreground: #ffffff;
+  --color-destructive: #dc2626;
+  --color-destructive-foreground: #ffffff;
+  --color-border: #e5e5e5;
+  --color-input: #e5e5e5;
+  --color-ring: #0091a3;
+  --radius: 0.5rem;
+  --color-energy-extreme: #800000;
+  --color-energy-extreme-fg: #ffffff;
+  --color-energy-very-high: #dc2626;
+  --color-energy-very-high-fg: #ffffff;
+  --color-energy-high: #f0c46d;
+  --color-energy-high-fg: #252525;
+  --color-energy-medium: #ffde21;
+  --color-energy-medium-fg: #252525;
+  --color-energy-low: #10b981;
+  --color-energy-low-fg: #ffffff;
+  --color-energy-recharge: #b3b3b3;
+  --color-energy-recharge-fg: #252525;
+  --color-energy-sleep: #666666;
+  --color-energy-sleep-fg: #ffffff;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
