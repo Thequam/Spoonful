@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { Plus } from "lucide-react"
+import { Plus } from 'lucide-react'
 import { getSpoonColor } from "@/lib/energy-utils"
 
 interface TimeSlotProps {
@@ -51,8 +51,8 @@ export function TimeSlot({
         <div
           className={`absolute inset-1 ${colors.bg} ${colors.fg} rounded-md shadow-sm px-2 py-1 flex flex-col justify-between items-center text-center cursor-grab active:cursor-grabbing`}
         >
-          <div className="text-[11px] font-semibold leading-tight line-clamp-2 w-full">{activity.name}</div>
-          <div className="text-[9px] font-medium">
+          <div className="text-xs font-semibold leading-tight line-clamp-2 w-full break-words">{activity.name}</div>
+          <div className="text-[10px] font-medium">
             {activity.spoons} {activity.spoons === 1 ? "Spoon" : "Spoons"}
           </div>
         </div>
