@@ -1,13 +1,11 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useRef } from "react"
 import { TimeSlot } from "./time-slot"
 import { TIME_SLOTS } from "@/lib/types"
 import { format } from "date-fns"
-import { formatDateForDB } from "@/lib/date-utils"
-import { getSpoonLabel } from "@/lib/energy-utils"
+import { formatDateForDB, isToday } from "@/lib/date-utils"
 import { AlertTriangle } from "lucide-react"
 import type { TimetableEntry } from "@/lib/types"
 
@@ -25,6 +23,8 @@ export function DayView({ date, entries, dailyLimit, onSlotClick, onDropActivity
   const dayEntries = entries.filter((entry) => entry.date === dateStr)
   const totalSpoons = dayEntries.reduce((sum, entry) => sum + entry.spoons, 0)
   const isOverLimit = totalSpoons > dailyLimit
+  const progressPercent = Math.min((totalSpoons / dailyLimit) * 100, 100)
+  const isTodayDate = isToday(date)
   const [dragOverSlot, setDragOverSlot] = useState<string | null>(null)
   const [draggedSlot, setDraggedSlot] = useState<{ date: Date; time: string } | null>(null)
   const [isDuplicateMode, setIsDuplicateMode] = useState(false)
@@ -111,35 +111,54 @@ export function DayView({ date, entries, dailyLimit, onSlotClick, onDropActivity
 
   return (
     <div className="w-full">
-      <div className="border-2 border-border rounded-lg overflow-hidden bg-background shadow-sm">
-        <div className="border-b-2 border-border bg-background p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-lg font-semibold text-foreground">{format(date, "EEEE, MMMM d, yyyy")}</h2>
+      <div className="border border-border/40 rounded-lg overflow-hidden bg-background shadow-sm">
+        <div
+          className={`h-[85px] border-b border-border/40 flex flex-col items-center justify-center py-2 px-2 bg-background ${
+            isTodayDate ? "bg-primary/5 dark:bg-primary/10" : ""
+          }`}
+        >
+          <div className="text-xs uppercase tracking-wide text-muted-foreground font-medium">{format(date, "EEE")}</div>
+          <div className="relative flex items-center justify-center mt-0.5">
+            <span
+              className={`text-sm font-semibold ${
+                isTodayDate
+                  ? "bg-primary text-primary-foreground rounded-full w-7 h-7 flex items-center justify-center"
+                  : "text-foreground"
+              }`}
+            >
+              {format(date, "d")}
+            </span>
+            {isOverLimit && <AlertTriangle className="absolute -right-4 h-3 w-3 text-destructive" />}
+          </div>
+          <div className={`text-xs mt-0.5 font-medium ${isOverLimit ? "text-destructive" : "text-muted-foreground"}`}>
+            {totalSpoons} / {dailyLimit} Spoons
+          </div>
+
+          <div className="w-[90%] mt-1.5">
+            <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
               <div
-                className={`text-sm mt-1 ${isOverLimit ? "text-destructive font-semibold" : "text-muted-foreground"}`}
-              >
-                {getSpoonLabel(totalSpoons)} used
-                {isOverLimit && (
-                  <span className="inline-flex items-center gap-1 ml-2">
-                    <AlertTriangle className="h-3 w-3" />
-                    Over limit
-                  </span>
-                )}
-              </div>
+                className={`h-full rounded-full transition-all duration-300 ${
+                  isOverLimit ? "bg-destructive" : "bg-primary"
+                }`}
+                style={{ width: `${progressPercent}%` }}
+              />
             </div>
-            <div className="text-sm text-muted-foreground">Daily limit: {getSpoonLabel(dailyLimit)}</div>
           </div>
         </div>
 
         <div className="grid grid-cols-[80px_1fr]">
           <div className="bg-background">
-            {TIME_SLOTS.map((slot) => (
+            {TIME_SLOTS.map((slot, index) => (
               <div
                 key={slot.time}
-                className="h-[60px] border-b border-r-2 border-border flex items-center justify-center px-2"
+                className="h-[60px] border-b border-r border-border/40 flex items-center justify-center px-2"
               >
-                <span className="text-sm font-medium text-muted-foreground">{slot.label}</span>
+                <div className="flex flex-col items-center">
+                  <span className="text-xs font-medium text-muted-foreground/70">{slot.time}</span>
+                  <span className="text-xs font-medium text-muted-foreground/70">
+                    {TIME_SLOTS[index + 1]?.time || "22:00"}
+                  </span>
+                </div>
               </div>
             ))}
           </div>

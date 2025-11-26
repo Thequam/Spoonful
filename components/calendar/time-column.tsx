@@ -3,7 +3,7 @@ import { TIME_SLOTS } from "@/lib/types"
 export function TimeColumn() {
   return (
     <div className="sticky left-0 z-10 bg-background">
-      <div className="h-[60px] border-b border-r border-border/40 bg-background flex items-center justify-center">
+      <div className="h-[85px] border-b border-r border-border/40 bg-background flex items-center justify-center">
         <span className="text-xs font-medium text-muted-foreground/70">Time</span>
       </div>
 
