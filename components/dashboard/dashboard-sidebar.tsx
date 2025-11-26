@@ -42,7 +42,7 @@ export function DashboardSidebar({
   }
 
   return (
-    <div className="w-80 h-screen border-r border-border bg-muted flex flex-col transition-all duration-300">
+    <div className="w-80 h-screen border-r border-border bg-[#f5f5f5] dark:bg-[#1a1a1a] flex flex-col transition-all duration-300">
       <div className="flex-1 overflow-y-auto scrollbar-hide p-6 space-y-6">
         <div className="bg-card rounded-lg p-4 shadow-sm">
           <div className="flex items-center justify-between mb-4">

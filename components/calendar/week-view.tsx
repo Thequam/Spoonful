@@ -124,7 +124,7 @@ export function WeekView({
   return (
     <div className="w-full overflow-auto scrollbar-hide">
       <div className="min-w-[800px]">
-        <div className="grid grid-cols-[60px_repeat(7,1fr)] border-2 border-border rounded-lg overflow-hidden bg-background shadow-sm">
+        <div className="grid grid-cols-[60px_repeat(7,1fr)] border border-border/60 rounded-lg overflow-hidden bg-background shadow-sm">
           {/* Time column */}
           <TimeColumn />
 

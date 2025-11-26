@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { Plus } from 'lucide-react'
+import { Plus } from "lucide-react"
 import { getSpoonColor } from "@/lib/energy-utils"
 
 interface TimeSlotProps {
@@ -38,7 +38,7 @@ export function TimeSlot({
 
     return (
       <div
-        className={`h-[60px] border-b border-r border-border relative cursor-pointer group bg-muted ${
+        className={`h-[60px] border-b border-r border-border/40 relative cursor-pointer group bg-muted ${
           isDragOver ? "ring-2 ring-primary" : ""
         } ${isDuplicateMode ? "ring-2 ring-blue-500" : ""}`}
         onClick={onClick}
@@ -62,7 +62,7 @@ export function TimeSlot({
 
   return (
     <div
-      className={`h-[60px] border-b border-r border-border relative cursor-pointer hover:bg-card transition-colors group bg-muted ${
+      className={`h-[60px] border-b border-r border-border/40 relative cursor-pointer hover:bg-card transition-colors group bg-muted ${
         isDragOver ? "bg-primary/5 ring-2 ring-primary" : ""
       }`}
       onClick={onClick}
@@ -70,7 +70,7 @@ export function TimeSlot({
       onDrop={onDrop}
     >
       <div className="absolute inset-0 flex items-center justify-center opacity-100">
-        <Plus className="h-4 w-4 text-muted-foreground/50" />
+        <Plus className="h-4 w-4 text-muted-foreground/30" />
       </div>
     </div>
   )

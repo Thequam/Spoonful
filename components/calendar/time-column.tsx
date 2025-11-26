@@ -3,8 +3,8 @@ import { TIME_SLOTS } from "@/lib/types"
 export function TimeColumn() {
   return (
     <div className="sticky left-0 z-10 bg-background">
-      <div className="h-[60px] border-b-2 border-r-2 border-border bg-background flex items-center justify-center">
-        <span className="text-xs font-medium text-muted-foreground">Time</span>
+      <div className="h-[60px] border-b border-r border-border/40 bg-background flex items-center justify-center">
+        <span className="text-xs font-medium text-muted-foreground/70">Time</span>
       </div>
 
       {/* Time labels - Show start and end time stacked vertically */}
@@ -13,10 +13,10 @@ export function TimeColumn() {
         return (
           <div
             key={slot.time}
-            className="h-[60px] border-b border-r-2 border-border flex flex-col items-center justify-center px-2"
+            className="h-[60px] border-b border-r border-border/40 flex flex-col items-center justify-center px-2"
           >
-            <span className="text-xs font-medium text-muted-foreground">{slot.label}</span>
-            <span className="text-xs font-medium text-muted-foreground">{nextSlot.label}</span>
+            <span className="text-xs font-medium text-muted-foreground/70">{slot.label}</span>
+            <span className="text-xs font-medium text-muted-foreground/70">{nextSlot.label}</span>
           </div>
         )
       })}
