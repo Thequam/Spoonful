@@ -24,7 +24,7 @@ export function DayHeader({ date, totalSpoons, dailyLimit, onClick }: DayHeaderP
       }`}
       onClick={onClick}
     >
-      <div className="text-xs uppercase tracking-wide text-muted-foreground font-medium">{format(date, "EEE")}</div>
+      <div className="text-xs uppercase tracking-wide text-primary font-semibold">{format(date, "EEE")}</div>
       <div className="relative flex items-center justify-center mt-0.5">
         <span
           className={`text-sm font-semibold ${

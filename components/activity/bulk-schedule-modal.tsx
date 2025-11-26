@@ -23,6 +23,13 @@ export function BulkScheduleModal({ open, onOpenChange, weekStart, onSave }: Bul
   const [activities, setActivities] = useState<Activity[]>([])
   const [selectedActivity, setSelectedActivity] = useState<string>("")
   const [selectedSlots, setSelectedSlots] = useState<Set<string>>(new Set())
+  const [startTime, setStartTime] = useState<string>("")
+  const [duration, setDuration] = useState<string>("")
+
+  const durationOptions = Array.from({ length: 12 }, (_, i) => ({
+    value: String((i + 1) * 2),
+    label: `${(i + 1) * 2} Hours`,
+  }))
 
   useEffect(() => {
     async function loadActivities() {
@@ -31,7 +38,6 @@ export function BulkScheduleModal({ open, onOpenChange, weekStart, onSave }: Bul
       } = await supabase.auth.getUser()
       if (!user) return
 
-      // Only load 0-spoon activities for bulk scheduling
       const { data } = await supabase
         .from("activities")
         .select("*")
@@ -47,6 +53,8 @@ export function BulkScheduleModal({ open, onOpenChange, weekStart, onSave }: Bul
     if (open) {
       loadActivities()
       setSelectedSlots(new Set())
+      setStartTime("")
+      setDuration("")
     }
   }, [open, supabase])
 
@@ -58,6 +66,29 @@ export function BulkScheduleModal({ open, onOpenChange, weekStart, onSave }: Bul
     } else {
       newSlots.add(key)
     }
+    setSelectedSlots(newSlots)
+  }
+
+  const handleSelectAll = () => {
+    if (!startTime || !duration) return
+
+    const startIndex = TIME_SLOTS.findIndex((slot) => slot.time === startTime)
+    if (startIndex === -1) return
+
+    const durationHours = Number.parseInt(duration)
+    const slotsToSelect = durationHours / 2
+
+    const newSlots = new Set(selectedSlots)
+
+    for (let dayIndex = 0; dayIndex < DAYS.length; dayIndex++) {
+      for (let i = 0; i < slotsToSelect; i++) {
+        const slotIndex = (startIndex + i) % TIME_SLOTS.length
+        const slotTime = TIME_SLOTS[slotIndex].time
+        const key = `${dayIndex}-${slotTime}`
+        newSlots.add(key)
+      }
+    }
+
     setSelectedSlots(newSlots)
   }
 
@@ -114,6 +145,44 @@ export function BulkScheduleModal({ open, onOpenChange, weekStart, onSave }: Bul
                 })}
               </SelectContent>
             </Select>
+          </div>
+
+          <div className="flex items-end gap-3">
+            <Button variant="outline" size="sm" onClick={handleSelectAll} disabled={!startTime || !duration}>
+              Select All
+            </Button>
+
+            <div className="flex-1 space-y-1">
+              <Label className="text-xs">Start Time</Label>
+              <Select value={startTime} onValueChange={setStartTime}>
+                <SelectTrigger className="h-9">
+                  <SelectValue placeholder="Start Time" />
+                </SelectTrigger>
+                <SelectContent>
+                  {TIME_SLOTS.map((slot) => (
+                    <SelectItem key={slot.time} value={slot.time}>
+                      {slot.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex-1 space-y-1">
+              <Label className="text-xs">Duration in Hours</Label>
+              <Select value={duration} onValueChange={setDuration}>
+                <SelectTrigger className="h-9">
+                  <SelectValue placeholder="Duration in Hours" />
+                </SelectTrigger>
+                <SelectContent>
+                  {durationOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           <div className="space-y-2">

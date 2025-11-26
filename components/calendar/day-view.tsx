@@ -16,9 +16,18 @@ interface DayViewProps {
   onSlotClick: (date: Date, time: string) => void
   onDropActivity?: (date: Date, time: string, activityName: string, spoons: number) => void
   onMoveActivity?: (fromDate: Date, fromTime: string, toDate: Date, toTime: string) => void
+  onDeleteActivity?: (date: Date, time: string) => void
 }
 
-export function DayView({ date, entries, dailyLimit, onSlotClick, onDropActivity, onMoveActivity }: DayViewProps) {
+export function DayView({
+  date,
+  entries,
+  dailyLimit,
+  onSlotClick,
+  onDropActivity,
+  onMoveActivity,
+  onDeleteActivity,
+}: DayViewProps) {
   const dateStr = formatDateForDB(date)
   const dayEntries = entries.filter((entry) => entry.date === dateStr)
   const totalSpoons = dayEntries.reduce((sum, entry) => sum + entry.spoons, 0)
@@ -174,6 +183,7 @@ export function DayView({ date, entries, dailyLimit, onSlotClick, onDropActivity
                   time={slot.time}
                   activity={getActivity(slot.time)}
                   onClick={() => onSlotClick(date, slot.time)}
+                  onDelete={() => onDeleteActivity?.(date, slot.time)}
                   onDragOver={(e) => handleDragOver(e, slot.time)}
                   onDrop={(e) => handleDrop(e, slot.time)}
                   onDragStart={(e) => handleDragStart(e, slot.time)}

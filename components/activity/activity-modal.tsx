@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Trash2, Plus, Check } from 'lucide-react'
+import { Trash2, Plus, Check, CalendarRange } from "lucide-react"
 import { getSpoonColor, getSpoonLabel } from "@/lib/energy-utils"
 import type { Activity } from "@/lib/types"
 import { format } from "date-fns"
@@ -25,6 +25,7 @@ interface ActivityModalProps {
   } | null
   onSave: (activityName: string, spoons: number) => void
   onDelete?: () => void
+  onOpenBulkSchedule?: () => void
 }
 
 export function ActivityModal({
@@ -35,6 +36,7 @@ export function ActivityModal({
   existingActivity,
   onSave,
   onDelete,
+  onOpenBulkSchedule,
 }: ActivityModalProps) {
   const supabase = createClient()
   const [activities, setActivities] = useState<Activity[]>([])
@@ -225,24 +227,31 @@ export function ActivityModal({
                           <AccordionContent className="px-4 pb-2">
                             <div className="space-y-1">
                               {activitiesInLevel.map((activity) => {
-                                const activityTextColor = activity.spoons === 5 || activity.spoons === 4 ? 'text-white' : 'text-foreground'
-                                const spoonTextColor = 
-                                  activity.spoons === 5 || activity.spoons === 4 ? 'text-white' :
-                                  activity.spoons === 1 || activity.spoons === 0 ? 'text-foreground' :
-                                  'text-muted-foreground'
-                                
+                                const activityTextColor =
+                                  activity.spoons === 5 || activity.spoons === 4 ? "text-white" : "text-foreground"
+                                const spoonTextColor =
+                                  activity.spoons === 5 || activity.spoons === 4
+                                    ? "text-white"
+                                    : activity.spoons === 1 || activity.spoons === 0
+                                      ? "text-foreground"
+                                      : "text-muted-foreground"
+
                                 return (
                                   <div
                                     key={activity.id}
                                     className={`flex items-center justify-between gap-2 px-3 py-2 rounded-md cursor-pointer transition-colors ${colors.bg} bg-opacity-20 hover:bg-opacity-30 border ${
-                                      selectedActivity === activity.name ? "border-primary ring-2 ring-primary/20" : "border-transparent"
+                                      selectedActivity === activity.name
+                                        ? "border-primary ring-2 ring-primary/20"
+                                        : "border-transparent"
                                     }`}
                                     onClick={() => setSelectedActivity(activity.name)}
                                   >
                                     <div className="flex items-center gap-2 flex-1">
                                       {selectedActivity === activity.name && <Check className="h-4 w-4 text-primary" />}
                                       <div className="flex items-center gap-2">
-                                        <span className={`text-sm font-medium ${activityTextColor}`}>{activity.name}</span>
+                                        <span className={`text-sm font-medium ${activityTextColor}`}>
+                                          {activity.name}
+                                        </span>
                                         <span className={`text-xs ${spoonTextColor}`}>
                                           - {activity.spoons} {activity.spoons === 1 ? "Spoon" : "Spoons"}
                                         </span>
@@ -277,6 +286,20 @@ export function ActivityModal({
                 <Plus className="h-4 w-4 mr-2" />
                 Create New Activity
               </Button>
+
+              {onOpenBulkSchedule && (
+                <Button
+                  variant="outline"
+                  className="w-full bg-transparent"
+                  onClick={() => {
+                    onOpenChange(false)
+                    onOpenBulkSchedule()
+                  }}
+                >
+                  <CalendarRange className="h-4 w-4 mr-2" />
+                  Bulk Schedule
+                </Button>
+              )}
             </>
           ) : (
             <>

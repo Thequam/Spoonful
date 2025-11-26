@@ -284,6 +284,13 @@ export default function AppPage() {
     pushToHistory(newEntries)
   }
 
+  const handleDeleteActivityDirect = async (date: Date, time: string) => {
+    const dateStr = formatDateForDB(date)
+    const newEntries = entries.filter((e) => !(e.date === dateStr && e.timeslot === time))
+    setEntries(newEntries)
+    pushToHistory(newEntries)
+  }
+
   const handleDropActivity = async (date: Date, time: string, activityName: string, spoons: number) => {
     if (!userId) return
 
@@ -539,87 +546,87 @@ export default function AppPage() {
                       <Menu className="h-4 w-4 text-primary" />
                     </Button>
                   </SheetTrigger>
-                  <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-card">
-                    <SheetHeader className="space-y-2">
-                      <SheetTitle className="text-lg font-semibold">Menu</SheetTitle>
-                      {profile?.display_name && (
-                        <SheetDescription className="text-sm text-muted-foreground">
-                          {profile.display_name}
-                        </SheetDescription>
-                      )}
-                    </SheetHeader>
-                    <div className="flex flex-col gap-6 mt-6">
-                      <div className="space-y-3">
-                        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                          Schedule
-                        </h3>
-                        <div className="space-y-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
+                  <SheetContent side="right" className="w-[300px] sm:w-[350px] bg-white border-l border-border/30 p-0">
+                    <div className="flex flex-col h-full">
+                      {/* Header */}
+                      <div className="px-6 py-5 border-b border-border/20">
+                        <SheetHeader className="space-y-1">
+                          <SheetTitle className="text-xl font-semibold text-foreground">Menu</SheetTitle>
+                          {profile?.display_name && (
+                            <SheetDescription className="text-sm text-muted-foreground/80">
+                              {profile.display_name}
+                            </SheetDescription>
+                          )}
+                        </SheetHeader>
+                      </div>
+
+                      {/* Menu Content */}
+                      <div className="flex-1 px-4 py-4 space-y-6">
+                        {/* Schedule Section */}
+                        <div className="space-y-1">
+                          <h3 className="px-3 text-[11px] font-medium text-muted-foreground/60 uppercase tracking-wider mb-2">
+                            Schedule
+                          </h3>
+                          <button
                             onClick={() => {
                               setLoadPreviousWeekOpen(true)
                               setMobileMenuOpen(false)
                             }}
-                            className="w-full justify-start"
+                            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-foreground hover:bg-primary/10 hover:text-primary transition-colors duration-150"
                           >
-                            <Download className="h-4 w-4 mr-2" />
+                            <Download className="h-[18px] w-[18px] text-muted-foreground/70" />
                             Load Previous Week
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
+                          </button>
+                          <button
                             onClick={() => {
                               setBulkScheduleOpen(true)
                               setMobileMenuOpen(false)
                             }}
-                            className="w-full justify-start"
+                            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-foreground hover:bg-primary/10 hover:text-primary transition-colors duration-150"
                           >
-                            <Calendar className="h-4 w-4 mr-2" />
+                            <Calendar className="h-[18px] w-[18px] text-muted-foreground/70" />
                             Bulk Schedule
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
+                          </button>
+                          <button
                             onClick={() => {
                               handleRefresh()
                               setMobileMenuOpen(false)
                             }}
-                            className="w-full justify-start"
+                            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-foreground hover:bg-primary/10 hover:text-primary transition-colors duration-150"
                           >
-                            <RefreshCw className="h-4 w-4 mr-2" />
+                            <RefreshCw className="h-[18px] w-[18px] text-muted-foreground/70" />
                             Clear Week
-                          </Button>
+                          </button>
                         </div>
-                      </div>
 
-                      <div className="space-y-3">
-                        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Account</h3>
-                        <div className="space-y-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
+                        {/* Divider */}
+                        <div className="h-px bg-border/20 mx-2" />
+
+                        {/* Account Section */}
+                        <div className="space-y-1">
+                          <h3 className="px-3 text-[11px] font-medium text-muted-foreground/60 uppercase tracking-wider mb-2">
+                            Account
+                          </h3>
+                          <button
                             onClick={() => {
                               setSettingsOpen(true)
                               setMobileMenuOpen(false)
                             }}
-                            className="w-full justify-start"
+                            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-foreground hover:bg-primary/10 hover:text-primary transition-colors duration-150"
                           >
-                            <Settings className="h-4 w-4 mr-2" />
+                            <Settings className="h-[18px] w-[18px] text-muted-foreground/70" />
                             Settings
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
+                          </button>
+                          <button
                             onClick={() => {
                               handleSignOut()
                               setMobileMenuOpen(false)
                             }}
-                            className="w-full justify-start"
+                            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-foreground hover:bg-primary/10 hover:text-primary transition-colors duration-150"
                           >
-                            <LogOut className="h-4 w-4 mr-2" />
+                            <LogOut className="h-[18px] w-[18px] text-muted-foreground/70" />
                             Sign Out
-                          </Button>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -663,6 +670,7 @@ export default function AppPage() {
                   onDateClick={handleDateClick}
                   onDropActivity={handleDropActivity}
                   onMoveActivity={handleMoveActivity}
+                  onDeleteActivity={handleDeleteActivityDirect}
                 />
               ) : (
                 <DayView
@@ -672,6 +680,7 @@ export default function AppPage() {
                   onSlotClick={handleSlotClick}
                   onDropActivity={handleDropActivity}
                   onMoveActivity={handleMoveActivity}
+                  onDeleteActivity={handleDeleteActivityDirect}
                 />
               )}
             </div>
@@ -689,6 +698,7 @@ export default function AppPage() {
           existingActivity={selectedActivity}
           onSave={handleSaveActivity}
           onDelete={selectedActivity ? handleDeleteActivity : undefined}
+          onOpenBulkSchedule={() => setBulkScheduleOpen(true)}
         />
       )}
 

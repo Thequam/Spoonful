@@ -18,6 +18,7 @@ interface WeekViewProps {
   onDateClick?: (date: Date) => void
   onDropActivity?: (date: Date, time: string, activityName: string, spoons: number) => void
   onMoveActivity?: (fromDate: Date, fromTime: string, toDate: Date, toTime: string) => void
+  onDeleteActivity?: (date: Date, time: string) => void
 }
 
 export function WeekView({
@@ -28,6 +29,7 @@ export function WeekView({
   onDateClick,
   onDropActivity,
   onMoveActivity,
+  onDeleteActivity,
 }: WeekViewProps) {
   const weekDays = getWeekDays(weekStart)
   const [dragOverSlot, setDragOverSlot] = useState<string | null>(null)
@@ -151,6 +153,7 @@ export function WeekView({
                     time={slot.time}
                     activity={getActivity(day, slot.time)}
                     onClick={() => onSlotClick(day, slot.time)}
+                    onDelete={() => onDeleteActivity?.(day, slot.time)}
                     onDragOver={(e) => handleDragOver(e, day, slot.time)}
                     onDrop={(e) => handleDrop(e, day, slot.time)}
                     onDragStart={(e) => handleDragStart(e, day, slot.time)}
