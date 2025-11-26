@@ -24,6 +24,7 @@ export function DailyEnergyGrid({
   const isWeekendOver = weekendTotal > weekendLimit
   const totalWeek = weekdayTotal + weekendTotal
   const totalLimit = weekdayLimit + weekendLimit
+  const isTotalOver = totalWeek > totalLimit
 
   return (
     <div className="space-y-4">
@@ -36,10 +37,12 @@ export function DailyEnergyGrid({
           const isOverLimit = total > dailyLimit
 
           return (
-            <div key={day} className="flex flex-col items-center">
+            <div key={day} className="flex flex-col items-center relative h-14">
               <div className="text-[10px] font-medium text-muted-foreground mb-1">{dayAbbrev}</div>
-              <div className={`text-sm font-semibold text-primary ${isOverLimit ? "text-destructive" : ""}`}>{total}</div>
-              {isOverLimit && <AlertTriangle className="h-3 w-3 text-destructive mx-auto mt-1" />}
+              <div className={`text-sm font-semibold text-primary ${isOverLimit ? "text-destructive" : ""}`}>
+                {total}
+              </div>
+              {isOverLimit && <AlertTriangle className="h-3 w-3 text-destructive absolute bottom-0" />}
             </div>
           )
         })}
@@ -47,23 +50,44 @@ export function DailyEnergyGrid({
 
       <div className="space-y-1 pt-2 border-t border-border">
         <h3 className="text-sm font-semibold text-foreground mb-2">Weekly Summary</h3>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center relative">
           <span className="text-xs text-muted-foreground">Weekday:</span>
-          <span className={`text-xs font-semibold ${isWeekdayOver ? "text-destructive" : "text-primary"}`}>
-            {weekdayTotal}/{weekdayLimit}
-          </span>
+          <div className="flex items-center">
+            <span
+              className={`text-xs font-semibold w-16 text-right ${isWeekdayOver ? "text-destructive" : "text-primary"}`}
+            >
+              {weekdayTotal}/{weekdayLimit}
+            </span>
+            <div className="w-5 flex justify-center">
+              {isWeekdayOver && <AlertTriangle className="h-3 w-3 text-destructive" />}
+            </div>
+          </div>
         </div>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center relative">
           <span className="text-xs text-muted-foreground">Weekend:</span>
-          <span className={`text-xs font-semibold ${isWeekendOver ? "text-destructive" : "text-primary"}`}>
-            {weekendTotal}/{weekendLimit}
-          </span>
+          <div className="flex items-center">
+            <span
+              className={`text-xs font-semibold w-16 text-right ${isWeekendOver ? "text-destructive" : "text-primary"}`}
+            >
+              {weekendTotal}/{weekendLimit}
+            </span>
+            <div className="w-5 flex justify-center">
+              {isWeekendOver && <AlertTriangle className="h-3 w-3 text-destructive" />}
+            </div>
+          </div>
         </div>
-        <div className="flex justify-between items-center mt-2">
+        <div className="flex justify-between items-center mt-2 relative">
           <span className="text-xs text-muted-foreground">Total:</span>
-          <span className="text-xs font-semibold text-primary">
-            {totalWeek}/{totalLimit}
-          </span>
+          <div className="flex items-center">
+            <span
+              className={`text-xs font-semibold w-16 text-right ${isTotalOver ? "text-destructive" : "text-primary"}`}
+            >
+              {totalWeek}/{totalLimit}
+            </span>
+            <div className="w-5 flex justify-center">
+              {isTotalOver && <AlertTriangle className="h-3 w-3 text-destructive" />}
+            </div>
+          </div>
         </div>
       </div>
     </div>

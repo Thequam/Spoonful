@@ -3,18 +3,23 @@ import { TIME_SLOTS } from "@/lib/types"
 export function TimeColumn() {
   return (
     <div className="sticky left-0 z-10 bg-background">
-      {/* Empty header cell */}
-      <div className="h-[60px] border-b-2 border-r-2 border-border bg-background" />
+      <div className="h-[60px] border-b-2 border-r-2 border-border bg-background flex items-center justify-center">
+        <span className="text-xs font-medium text-muted-foreground">Time</span>
+      </div>
 
-      {/* Time labels */}
-      {TIME_SLOTS.map((slot) => (
-        <div
-          key={slot.time}
-          className="h-[60px] border-b border-r-2 border-border flex items-center justify-center px-2"
-        >
-          <span className="text-sm font-medium text-muted-foreground">{slot.label}</span>
-        </div>
-      ))}
+      {/* Time labels - Show start and end time stacked vertically */}
+      {TIME_SLOTS.map((slot, index) => {
+        const nextSlot = TIME_SLOTS[(index + 1) % TIME_SLOTS.length]
+        return (
+          <div
+            key={slot.time}
+            className="h-[60px] border-b border-r-2 border-border flex flex-col items-center justify-center px-2"
+          >
+            <span className="text-xs font-medium text-muted-foreground">{slot.label}</span>
+            <span className="text-xs font-medium text-muted-foreground">{nextSlot.label}</span>
+          </div>
+        )
+      })}
     </div>
   )
 }

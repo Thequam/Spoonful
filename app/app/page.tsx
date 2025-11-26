@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { createClient } from "@/lib/supabase/client"
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation"
 import { CalendarHeader } from "@/components/calendar/calendar-header"
 import { WeekView } from "@/components/calendar/week-view"
 import { DayView } from "@/components/calendar/day-view"
@@ -11,6 +11,7 @@ import { BulkScheduleModal } from "@/components/activity/bulk-schedule-modal"
 import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar"
 import { SettingsModal } from "@/components/settings/settings-modal"
 import { LoadPreviousWeekModal } from "@/components/settings/load-previous-week-modal"
+import { DatePickerModal } from "@/components/calendar/date-picker-modal" // Import the new DatePickerModal component
 import { ThemeToggle } from "@/components/settings/theme-toggle"
 import {
   getWeekStart,
@@ -25,7 +26,7 @@ import type { TimetableEntry, Profile, Activity } from "@/lib/types"
 import { DataPersistence } from "@/lib/data-persistence"
 import { HistoryManager } from "@/lib/history-manager"
 import { Button } from "@/components/ui/button"
-import { LogOut, Calendar, RefreshCw, Settings, Download, Save, Undo, Redo, Menu } from 'lucide-react'
+import { LogOut, Calendar, RefreshCw, Settings, Download, Save, Undo, Redo, Menu } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 
@@ -55,6 +56,7 @@ export default function AppPage() {
   const [settingsOpen, setSettingsOpen] = useState(false)
 
   const [loadPreviousWeekOpen, setLoadPreviousWeekOpen] = useState(false)
+  const [datePickerOpen, setDatePickerOpen] = useState(false) // Add state for date picker modal
 
   const [draggedActivity, setDraggedActivity] = useState<Activity | null>(null)
 
@@ -466,6 +468,12 @@ export default function AppPage() {
     }
   }
 
+  const handleDateSelect = (newWeekStart: Date) => {
+    // Add handler for date selection from picker
+    setWeekStart(newWeekStart)
+    setCurrentDate(newWeekStart)
+  }
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -506,7 +514,12 @@ export default function AppPage() {
                 >
                   <Redo className="h-4 w-4" />
                 </Button>
-                <Button size="sm" variant="outline" onClick={handleManualSave} className="gap-2 bg-background text-primary">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handleManualSave}
+                  className="gap-2 bg-background text-primary"
+                >
                   <Save className="h-4 w-4" />
                   Save
                 </Button>
@@ -637,6 +650,7 @@ export default function AppPage() {
                 onPrevious={handlePrevious}
                 onNext={handleNext}
                 onViewChange={setView}
+                onDateClick={() => setDatePickerOpen(true)} // Add onDateClick handler to open date picker
                 dailyLimit={profile?.daily_limit || 15}
               />
 
@@ -703,6 +717,14 @@ export default function AppPage() {
         currentWeekStart={weekStart}
         previousWeekStart={getPrevWeekStart(weekStart)}
         onConfirm={handleLoadPreviousWeek}
+      />
+
+      {/* DatePicker Modal */}
+      <DatePickerModal
+        open={datePickerOpen}
+        onOpenChange={setDatePickerOpen}
+        currentWeekStart={weekStart}
+        onSelectDate={handleDateSelect}
       />
     </div>
   )
