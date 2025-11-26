@@ -134,7 +134,7 @@ export function DayView({ date, entries, dailyLimit, onSlotClick, onDropActivity
             {totalSpoons} / {dailyLimit} Spoons
           </div>
 
-          <div className="w-[90%] mt-1.5">
+          <div className="w-[95%] mt-1.5">
             <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-300 ${
