@@ -15,6 +15,9 @@ interface DashboardSidebarProps {
   dailyTotals: number[]
   onDragStart: (activity: Activity | null) => void
   onDragEnd: () => void
+  onTouchDragStart?: (activity: Activity, element: HTMLElement) => void
+  onTouchDragMove?: (x: number, y: number) => void
+  onTouchDragEnd?: (x: number, y: number, activity: Activity) => void
 }
 
 export function DashboardSidebar({
@@ -24,6 +27,9 @@ export function DashboardSidebar({
   dailyTotals,
   onDragStart,
   onDragEnd,
+  onTouchDragStart,
+  onTouchDragMove,
+  onTouchDragEnd,
 }: DashboardSidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false)
 
@@ -72,7 +78,14 @@ export function DashboardSidebar({
         <EnergyLegend />
 
         <div className="bg-card rounded-lg p-4 shadow-sm">
-          <DragActivitiesPanel onDragStart={onDragStart} onDragEnd={onDragEnd} isInSidebar={true} />
+          <DragActivitiesPanel
+            onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
+            isInSidebar={true}
+            onTouchDragStart={onTouchDragStart}
+            onTouchDragMove={onTouchDragMove}
+            onTouchDragEnd={onTouchDragEnd}
+          />
         </div>
       </div>
     </div>

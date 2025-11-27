@@ -19,6 +19,7 @@ interface WeekViewProps {
   onDropActivity?: (date: Date, time: string, activityName: string, spoons: number) => void
   onMoveActivity?: (fromDate: Date, fromTime: string, toDate: Date, toTime: string) => void
   onDeleteActivity?: (date: Date, time: string) => void
+  touchDragOverSlot?: string | null
 }
 
 export function WeekView({
@@ -30,6 +31,7 @@ export function WeekView({
   onDropActivity,
   onMoveActivity,
   onDeleteActivity,
+  touchDragOverSlot,
 }: WeekViewProps) {
   const weekDays = getWeekDays(weekStart)
   const [dragOverSlot, setDragOverSlot] = useState<string | null>(null)
@@ -144,7 +146,7 @@ export function WeekView({
               {/* Time slots */}
               {TIME_SLOTS.map((slot) => {
                 const slotKey = `${formatDateForDB(day)}-${slot.time}`
-                const isDragOver = dragOverSlot === slotKey
+                const isDragOver = dragOverSlot === slotKey || touchDragOverSlot === slotKey
 
                 return (
                   <TimeSlot
@@ -160,6 +162,8 @@ export function WeekView({
                     onDragEnd={handleDragEnd}
                     isDragOver={isDragOver}
                     isDuplicateMode={isDuplicateMode}
+                    slotDate={formatDateForDB(day)}
+                    slotTime={slot.time}
                   />
                 )
               })}

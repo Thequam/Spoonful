@@ -185,7 +185,7 @@ export function ActivityModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-[403px]">
         <DialogHeader>
           <DialogTitle>{existingActivity ? "Edit Activity" : "Add Activity"}</DialogTitle>
           <DialogDescription>

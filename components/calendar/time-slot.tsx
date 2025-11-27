@@ -20,6 +20,8 @@ interface TimeSlotProps {
   onDragEnd?: () => void
   isDragOver?: boolean
   isDuplicateMode?: boolean
+  slotDate?: string
+  slotTime?: string
 }
 
 export function TimeSlot({
@@ -34,6 +36,8 @@ export function TimeSlot({
   onDragEnd,
   isDragOver = false,
   isDuplicateMode = false,
+  slotDate,
+  slotTime,
 }: TimeSlotProps) {
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -54,13 +58,16 @@ export function TimeSlot({
         draggable
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
+        data-slot-date={slotDate || date.toISOString()}
+        data-slot-time={slotTime || time}
+        data-has-activity="true"
       >
         <div
           className={`absolute inset-1 ${colors.bg} ${colors.fg} rounded-md shadow-sm px-2 py-1 flex flex-col justify-between items-center text-center cursor-grab active:cursor-grabbing`}
         >
           <button
             onClick={handleDelete}
-            className="absolute top-0.5 right-0.5 p-0.5 rounded-full hover:bg-black/20 transition-colors opacity-0 group-hover:opacity-100"
+            className="absolute top-0.5 right-0.5 p-0.5 rounded-full hover:bg-black/20 transition-colors opacity-60 hover:opacity-100"
             aria-label="Delete activity"
           >
             <X className="h-3 w-3" />
@@ -82,6 +89,9 @@ export function TimeSlot({
       onClick={onClick}
       onDragOver={onDragOver}
       onDrop={onDrop}
+      data-slot-date={slotDate || date.toISOString()}
+      data-slot-time={slotTime || time}
+      data-has-activity="false"
     >
       <div className="absolute inset-0 flex items-center justify-center opacity-100">
         <Plus className="h-4 w-4 text-muted-foreground/30" />

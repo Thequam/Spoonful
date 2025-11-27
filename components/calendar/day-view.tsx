@@ -17,6 +17,7 @@ interface DayViewProps {
   onDropActivity?: (date: Date, time: string, activityName: string, spoons: number) => void
   onMoveActivity?: (fromDate: Date, fromTime: string, toDate: Date, toTime: string) => void
   onDeleteActivity?: (date: Date, time: string) => void
+  touchDragOverSlot?: string | null
 }
 
 export function DayView({
@@ -27,6 +28,7 @@ export function DayView({
   onDropActivity,
   onMoveActivity,
   onDeleteActivity,
+  touchDragOverSlot,
 }: DayViewProps) {
   const dateStr = formatDateForDB(date)
   const dayEntries = entries.filter((entry) => entry.date === dateStr)
@@ -174,7 +176,8 @@ export function DayView({
 
           <div className="bg-card">
             {TIME_SLOTS.map((slot) => {
-              const isDragOver = dragOverSlot === slot.time
+              const slotKey = `${dateStr}-${slot.time}`
+              const isDragOver = dragOverSlot === slot.time || touchDragOverSlot === slotKey
 
               return (
                 <TimeSlot
@@ -190,6 +193,8 @@ export function DayView({
                   onDragEnd={handleDragEnd}
                   isDragOver={isDragOver}
                   isDuplicateMode={isDuplicateMode}
+                  slotDate={dateStr}
+                  slotTime={slot.time}
                 />
               )
             })}

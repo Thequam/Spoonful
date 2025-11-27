@@ -59,6 +59,7 @@ export default function AppPage() {
   const [datePickerOpen, setDatePickerOpen] = useState(false) // Add state for date picker modal
 
   const [draggedActivity, setDraggedActivity] = useState<Activity | null>(null)
+  const [touchDragOverSlot, setTouchDragOverSlot] = useState<string | null>(null)
 
   const [canUndo, setCanUndo] = useState(false)
   const [canRedo, setCanRedo] = useState(false)
@@ -481,6 +482,54 @@ export default function AppPage() {
     setCurrentDate(newWeekStart)
   }
 
+  const handleTouchDragStart = (activity: Activity, element: HTMLElement) => {
+    setDraggedActivity(activity)
+  }
+
+  const handleTouchDragMove = (x: number, y: number) => {
+    // Find the element under the touch point
+    const element = document.elementFromPoint(x, y)
+    if (element) {
+      // Look for parent with data-slot-date and data-slot-time attributes
+      const slotElement = element.closest("[data-slot-date][data-slot-time]")
+      if (slotElement) {
+        const slotDate = slotElement.getAttribute("data-slot-date")
+        const slotTime = slotElement.getAttribute("data-slot-time")
+        if (slotDate && slotTime) {
+          setTouchDragOverSlot(`${slotDate}-${slotTime}`)
+          return
+        }
+      }
+    }
+    setTouchDragOverSlot(null)
+  }
+
+  const handleTouchDragEnd = async (x: number, y: number, activity: Activity) => {
+    // Find the element under the touch point
+    const element = document.elementFromPoint(x, y)
+    if (element) {
+      // Look for parent with data-slot-date and data-slot-time attributes
+      const slotElement = element.closest("[data-slot-date][data-slot-time]")
+      if (slotElement) {
+        const slotDate = slotElement.getAttribute("data-slot-date")
+        const slotTime = slotElement.getAttribute("data-slot-time")
+        const hasActivity = slotElement.getAttribute("data-has-activity") === "true"
+
+        if (slotDate && slotTime && !hasActivity) {
+          // Parse the date string back to a Date object
+          const [year, month, day] = slotDate.split("-").map(Number)
+          const date = new Date(year, month - 1, day)
+
+          // Drop the activity
+          await handleDropActivity(date, slotTime, activity.name, activity.spoons)
+        }
+      }
+    }
+
+    setTouchDragOverSlot(null)
+    setDraggedActivity(null)
+  }
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -646,6 +695,9 @@ export default function AppPage() {
               dailyTotals={calculateDailyTotals()}
               onDragStart={setDraggedActivity}
               onDragEnd={() => setDraggedActivity(null)}
+              onTouchDragStart={handleTouchDragStart}
+              onTouchDragMove={handleTouchDragMove}
+              onTouchDragEnd={handleTouchDragEnd}
             />
           )}
 
@@ -671,6 +723,7 @@ export default function AppPage() {
                   onDropActivity={handleDropActivity}
                   onMoveActivity={handleMoveActivity}
                   onDeleteActivity={handleDeleteActivityDirect}
+                  touchDragOverSlot={touchDragOverSlot}
                 />
               ) : (
                 <DayView
@@ -681,6 +734,7 @@ export default function AppPage() {
                   onDropActivity={handleDropActivity}
                   onMoveActivity={handleMoveActivity}
                   onDeleteActivity={handleDeleteActivityDirect}
+                  touchDragOverSlot={touchDragOverSlot}
                 />
               )}
             </div>
