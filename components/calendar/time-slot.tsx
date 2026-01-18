@@ -67,19 +67,13 @@ export function TimeSlot({
         >
           <button
             onClick={handleDelete}
-            className="absolute top-0.5 right-0.5 p-0.5 transition-colors"
+            className="absolute top-1 right-1 p-0 transition-all opacity-50 hover:opacity-90"
             aria-label="Delete activity"
             style={{
-              filter: "drop-shadow(0px 1px 0px rgba(255,255,255,0.3))",
+              filter: "drop-shadow(0px 1px 0px rgba(255,255,255,0.3)) drop-shadow(0px -1px 0px rgba(0,0,0,0.2))",
             }}
           >
-            <X
-              className="h-3 w-3"
-              style={{
-                opacity: 0.5,
-                filter: "drop-shadow(0px -0.5px 0px rgba(0,0,0,0.4))",
-              }}
-            />
+            <X className="h-3.5 w-3.5" strokeWidth={2.5} />
           </button>
           <div className="text-xs font-semibold leading-tight line-clamp-2 w-full break-words">{activity.name}</div>
           <div className="text-[10px] font-medium">
