@@ -36,7 +36,7 @@ export function DragActivitiesPanel({
 }: DragActivitiesPanelProps) {
   const supabase = createClient()
   const [activities, setActivities] = useState<Activity[]>([])
-  const [expandedLevels, setExpandedLevels] = useState<Set<number>>(new Set([0, 1, 2, 3, 4, 5]))
+  const [expandedLevels, setExpandedLevels] = useState<Set<number>>(new Set())
   const touchDragRef = useRef<{ activity: Activity; startX: number; startY: number } | null>(null)
   const dragCloneRef = useRef<HTMLElement | null>(null)
 

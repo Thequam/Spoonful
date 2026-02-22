@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Trash2, Plus, Check, CalendarRange } from "lucide-react"
+import { Trash2, Plus, Check, CalendarRange, Search } from "lucide-react"
 import { getSpoonColor, getSpoonLabel } from "@/lib/energy-utils"
 import type { Activity } from "@/lib/types"
 import { format } from "date-fns"
@@ -47,6 +47,7 @@ export function ActivityModal({
   const [newActivityCategory, setNewActivityCategory] = useState("")
   const [newActivityDescription, setNewActivityDescription] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
     async function loadActivities() {
@@ -135,6 +136,7 @@ export function ActivityModal({
     setNewActivitySpoons(2)
     setNewActivityCategory("")
     setNewActivityDescription("")
+    setSearchQuery("")
   }
 
   const getSpoonCategory = (spoons: number): string => {
@@ -156,7 +158,12 @@ export function ActivityModal({
     }
   }
 
-  const groupedActivities = activities.reduce(
+  // Filter activities based on search query
+  const filteredActivities = activities.filter((activity) =>
+    activity.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  )
+
+  const groupedActivities = filteredActivities.reduce(
     (acc, activity) => {
       const spoonKey = activity.spoons.toString()
       if (!acc[spoonKey]) {
@@ -198,6 +205,15 @@ export function ActivityModal({
             <>
               <div className="space-y-2">
                 <Label>Select Activity</Label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search activities..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-9"
+                  />
+                </div>
                 <div className="border rounded-md max-h-[400px] overflow-y-auto scrollbar-hide bg-card">
                   <Accordion type="multiple" className="w-full">
                     {energyLevels.map((level) => {
