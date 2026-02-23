@@ -192,29 +192,29 @@ export function ActivityModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[403px]">
+      <DialogContent className="max-w-[383px] max-h-[85vh]">
         <DialogHeader>
-          <DialogTitle>{existingActivity ? "Edit Activity" : "Add Activity"}</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-lg">{existingActivity ? "Edit Activity" : "Add Activity"}</DialogTitle>
+          <DialogDescription className="text-sm">
             {format(date, "EEEE, MMMM d, yyyy")} at {time}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {!isCreatingNew ? (
             <>
-              <div className="space-y-2">
-                <Label>Select Activity</Label>
+              <div className="space-y-1.5">
+                <Label className="text-sm">Select Activity</Label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                   <Input
                     placeholder="Search activities..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-9"
+                    className="pl-8 h-9 text-sm"
                   />
                 </div>
-                <div className="border rounded-md max-h-[400px] overflow-y-auto scrollbar-hide bg-card">
+                <div className="border rounded-md max-h-[340px] overflow-y-auto scrollbar-hide bg-card">
                   <Accordion type="multiple" className="w-full">
                     {energyLevels.map((level) => {
                       const activitiesInLevel = groupedActivities[level.spoons.toString()] || []
@@ -228,10 +228,10 @@ export function ActivityModal({
                           value={`level-${level.spoons}`}
                           className="border-b last:border-b-0"
                         >
-                          <AccordionTrigger className="px-4 py-3 hover:bg-card">
-                            <div className="flex items-center gap-3">
-                              <div className={`w-3 h-3 rounded-full ${colors.bg}`} />
-                              <span className="font-medium text-sm">
+                          <AccordionTrigger className="px-3 py-2 hover:bg-card">
+                            <div className="flex items-center gap-2">
+                              <div className={`w-2.5 h-2.5 rounded-full ${colors.bg}`} />
+                              <span className="font-medium text-xs">
                                 {level.label} - {level.spoons} {level.spoons === 1 ? "Spoon" : "Spoons"}
                               </span>
                               <span className="text-xs text-muted-foreground">
@@ -240,8 +240,8 @@ export function ActivityModal({
                               </span>
                             </div>
                           </AccordionTrigger>
-                          <AccordionContent className="px-4 pb-2">
-                            <div className="space-y-1">
+                          <AccordionContent className="px-3 pb-1.5">
+                            <div className="space-y-0.5">
                               {activitiesInLevel.map((activity) => {
                                 const activityTextColor =
                                   activity.spoons === 5 || activity.spoons === 4 ? "text-white" : "text-foreground"
@@ -255,20 +255,20 @@ export function ActivityModal({
                                 return (
                                   <div
                                     key={activity.id}
-                                    className={`flex items-center justify-between gap-2 px-3 py-2 rounded-md cursor-pointer transition-colors ${colors.bg} bg-opacity-20 hover:bg-opacity-30 border ${
+                                    className={`flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-md cursor-pointer transition-colors ${colors.bg} bg-opacity-20 hover:bg-opacity-30 border ${
                                       selectedActivity === activity.name
                                         ? "border-primary ring-2 ring-primary/20"
                                         : "border-transparent"
                                     }`}
                                     onClick={() => setSelectedActivity(activity.name)}
                                   >
-                                    <div className="flex items-center gap-2 flex-1">
-                                      {selectedActivity === activity.name && <Check className="h-4 w-4 text-primary" />}
-                                      <div className="flex items-center gap-2">
-                                        <span className={`text-sm font-medium ${activityTextColor}`}>
+                                    <div className="flex items-center gap-1.5 flex-1">
+                                      {selectedActivity === activity.name && <Check className="h-3.5 w-3.5 text-primary" />}
+                                      <div className="flex items-center gap-1.5">
+                                        <span className={`text-xs font-medium ${activityTextColor}`}>
                                           {activity.name}
                                         </span>
-                                        <span className={`text-xs ${spoonTextColor}`}>
+                                        <span className={`text-[10px] ${spoonTextColor}`}>
                                           - {activity.spoons} {activity.spoons === 1 ? "Spoon" : "Spoons"}
                                         </span>
                                       </div>
@@ -277,7 +277,7 @@ export function ActivityModal({
                                       <Button
                                         variant="ghost"
                                         size="sm"
-                                        className="h-7 w-7 p-0"
+                                        className="h-6 w-6 p-0"
                                         onClick={(e) => {
                                           e.stopPropagation()
                                           handleDeleteActivity(activity.id, activity.is_default)
@@ -298,39 +298,40 @@ export function ActivityModal({
                 </div>
               </div>
 
-              <Button variant="outline" className="w-full bg-transparent" onClick={() => setIsCreatingNew(true)}>
-                <Plus className="h-4 w-4 mr-2" />
+              <Button variant="outline" className="w-full bg-transparent h-9 text-sm" onClick={() => setIsCreatingNew(true)}>
+                <Plus className="h-3.5 w-3.5 mr-1.5" />
                 Create New Activity
               </Button>
 
               {onOpenBulkSchedule && (
                 <Button
                   variant="outline"
-                  className="w-full bg-transparent"
+                  className="w-full bg-transparent h-9 text-sm"
                   onClick={() => {
                     onOpenChange(false)
                     onOpenBulkSchedule()
                   }}
                 >
-                  <CalendarRange className="h-4 w-4 mr-2" />
+                  <CalendarRange className="h-3.5 w-3.5 mr-1.5" />
                   Bulk Schedule
                 </Button>
               )}
             </>
           ) : (
             <>
-              <div className="space-y-2">
-                <Label htmlFor="activity-name">Activity Name</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="activity-name" className="text-sm">Activity Name</Label>
                 <Input
                   id="activity-name"
                   value={newActivityName}
                   onChange={(e) => setNewActivityName(e.target.value)}
                   placeholder="e.g., Morning Walk"
+                  className="h-9 text-sm"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="spoons">Energy Level (Spoons)</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="spoons" className="text-sm">Energy Level (Spoons)</Label>
                 <Select
                   value={newActivitySpoons.toString()}
                   onValueChange={(value) => setNewActivitySpoons(Number.parseInt(value))}
@@ -356,28 +357,30 @@ export function ActivityModal({
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="category">Category (Optional)</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="category" className="text-sm">Category (Optional)</Label>
                 <Input
                   id="category"
                   value={newActivityCategory}
                   onChange={(e) => setNewActivityCategory(e.target.value)}
                   placeholder="Auto-filled based on spoons"
+                  className="h-9 text-sm"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="description">Description (Optional)</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="description" className="text-sm">Description (Optional)</Label>
                 <Textarea
                   id="description"
                   value={newActivityDescription}
                   onChange={(e) => setNewActivityDescription(e.target.value)}
                   placeholder="Add notes about this activity"
-                  rows={3}
+                  rows={2}
+                  className="text-sm"
                 />
               </div>
 
-              <Button variant="outline" className="w-full bg-transparent" onClick={() => setIsCreatingNew(false)}>
+              <Button variant="outline" className="w-full bg-transparent h-9 text-sm" onClick={() => setIsCreatingNew(false)}>
                 Back to Activity List
               </Button>
             </>
@@ -392,7 +395,7 @@ export function ActivityModal({
                   onOpenChange(false)
                   resetForm()
                 }}
-                className="flex-1"
+                className="flex-1 h-9 text-sm"
               >
                 Remove
               </Button>
@@ -402,7 +405,7 @@ export function ActivityModal({
               disabled={
                 isLoading || (!isCreatingNew && !selectedActivity) || (isCreatingNew && !newActivityName.trim())
               }
-              className="flex-1"
+              className="flex-1 h-9 text-sm"
             >
               {isLoading ? "Saving..." : "Save"}
             </Button>
