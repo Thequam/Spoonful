@@ -192,20 +192,20 @@ export function ActivityModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[383px] max-h-[85vh]">
-        <DialogHeader>
+      <DialogContent className="max-w-[383px] max-h-[85vh] flex flex-col">
+        <DialogHeader className="flex-shrink-0">
           <DialogTitle className="text-lg">{existingActivity ? "Edit Activity" : "Add Activity"}</DialogTitle>
           <DialogDescription className="text-sm">
             {format(date, "EEEE, MMMM d, yyyy")} at {time}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-3">
+        <div className="space-y-2.5 flex-1 overflow-hidden flex flex-col">
           {!isCreatingNew ? (
             <>
-              <div className="space-y-1.5">
-                <Label className="text-sm">Select Activity</Label>
-                <div className="relative">
+              <div className="space-y-1.5 flex-1 flex flex-col overflow-hidden">
+                <Label className="text-sm flex-shrink-0">Select Activity</Label>
+                <div className="relative flex-shrink-0">
                   <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
                   <Input
                     placeholder="Search activities..."
@@ -214,7 +214,7 @@ export function ActivityModal({
                     className="pl-8 h-9 text-sm"
                   />
                 </div>
-                <div className="border rounded-md max-h-[340px] overflow-y-auto scrollbar-hide bg-card">
+                <div className="border rounded-md flex-1 overflow-y-auto scrollbar-hide bg-card">
                   <Accordion type="multiple" className="w-full">
                     {energyLevels.map((level) => {
                       const activitiesInLevel = groupedActivities[level.spoons.toString()] || []
@@ -298,118 +298,132 @@ export function ActivityModal({
                 </div>
               </div>
 
-              <Button variant="outline" className="w-full bg-transparent h-9 text-sm" onClick={() => setIsCreatingNew(true)}>
-                <Plus className="h-3.5 w-3.5 mr-1.5" />
-                Create New Activity
-              </Button>
+              <div className="flex-shrink-0 space-y-2">
+                <div className="grid grid-cols-2 gap-2">
+                  <Button variant="outline" className="bg-transparent h-9 text-sm" onClick={() => setIsCreatingNew(true)}>
+                    <Plus className="h-3.5 w-3.5 mr-1" />
+                    New Activity
+                  </Button>
 
-              {onOpenBulkSchedule && (
+                  {onOpenBulkSchedule && (
+                    <Button
+                      variant="outline"
+                      className="bg-transparent h-9 text-sm"
+                      onClick={() => {
+                        onOpenChange(false)
+                        onOpenBulkSchedule()
+                      }}
+                    >
+                      <CalendarRange className="h-3.5 w-3.5 mr-1" />
+                      Bulk Schedule
+                    </Button>
+                  )}
+                </div>
+
                 <Button
-                  variant="outline"
-                  className="w-full bg-transparent h-9 text-sm"
-                  onClick={() => {
-                    onOpenChange(false)
-                    onOpenBulkSchedule()
-                  }}
+                  onClick={handleSave}
+                  disabled={isLoading || !selectedActivity}
+                  className="w-full h-9 text-sm"
                 >
-                  <CalendarRange className="h-3.5 w-3.5 mr-1.5" />
-                  Bulk Schedule
+                  {isLoading ? "Saving..." : "Save"}
                 </Button>
-              )}
+              </div>
             </>
           ) : (
             <>
-              <div className="space-y-1.5">
-                <Label htmlFor="activity-name" className="text-sm">Activity Name</Label>
-                <Input
-                  id="activity-name"
-                  value={newActivityName}
-                  onChange={(e) => setNewActivityName(e.target.value)}
-                  placeholder="e.g., Morning Walk"
-                  className="h-9 text-sm"
-                />
+              <div className="flex-1 overflow-y-auto space-y-2">
+                <div className="space-y-1.5">
+                  <Label htmlFor="activity-name" className="text-sm">Activity Name</Label>
+                  <Input
+                    id="activity-name"
+                    value={newActivityName}
+                    onChange={(e) => setNewActivityName(e.target.value)}
+                    placeholder="e.g., Morning Walk"
+                    className="h-9 text-sm"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label htmlFor="spoons" className="text-sm">Energy Level (Spoons)</Label>
+                  <Select
+                    value={newActivitySpoons.toString()}
+                    onValueChange={(value) => setNewActivitySpoons(Number.parseInt(value))}
+                  >
+                    <SelectTrigger id="spoons">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[0, 1, 2, 3, 4, 5].map((spoons) => {
+                        const colors = getSpoonColor(spoons)
+                        return (
+                          <SelectItem key={spoons} value={spoons.toString()}>
+                            <div className="flex items-center gap-2">
+                              <div className={`w-3 h-3 rounded ${colors.bg}`} />
+                              <span>
+                                {getSpoonLabel(spoons)} - {getSpoonCategory(spoons)}
+                              </span>
+                            </div>
+                          </SelectItem>
+                        )
+                      })}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label htmlFor="category" className="text-sm">Category (Optional)</Label>
+                  <Input
+                    id="category"
+                    value={newActivityCategory}
+                    onChange={(e) => setNewActivityCategory(e.target.value)}
+                    placeholder="Auto-filled based on spoons"
+                    className="h-9 text-sm"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label htmlFor="description" className="text-sm">Description (Optional)</Label>
+                  <Textarea
+                    id="description"
+                    value={newActivityDescription}
+                    onChange={(e) => setNewActivityDescription(e.target.value)}
+                    placeholder="Add notes about this activity"
+                    rows={2}
+                    className="text-sm"
+                  />
+                </div>
               </div>
 
-              <div className="space-y-1.5">
-                <Label htmlFor="spoons" className="text-sm">Energy Level (Spoons)</Label>
-                <Select
-                  value={newActivitySpoons.toString()}
-                  onValueChange={(value) => setNewActivitySpoons(Number.parseInt(value))}
-                >
-                  <SelectTrigger id="spoons">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {[0, 1, 2, 3, 4, 5].map((spoons) => {
-                      const colors = getSpoonColor(spoons)
-                      return (
-                        <SelectItem key={spoons} value={spoons.toString()}>
-                          <div className="flex items-center gap-2">
-                            <div className={`w-3 h-3 rounded ${colors.bg}`} />
-                            <span>
-                              {getSpoonLabel(spoons)} - {getSpoonCategory(spoons)}
-                            </span>
-                          </div>
-                        </SelectItem>
-                      )
-                    })}
-                  </SelectContent>
-                </Select>
-              </div>
+              <div className="flex-shrink-0 space-y-2">
+                <Button variant="outline" className="w-full bg-transparent h-9 text-sm" onClick={() => setIsCreatingNew(false)}>
+                  Back to Activity List
+                </Button>
 
-              <div className="space-y-1.5">
-                <Label htmlFor="category" className="text-sm">Category (Optional)</Label>
-                <Input
-                  id="category"
-                  value={newActivityCategory}
-                  onChange={(e) => setNewActivityCategory(e.target.value)}
-                  placeholder="Auto-filled based on spoons"
-                  className="h-9 text-sm"
-                />
+                <div className="flex gap-2">
+                  {existingActivity && onDelete && (
+                    <Button
+                      variant="destructive"
+                      onClick={() => {
+                        onDelete()
+                        onOpenChange(false)
+                        resetForm()
+                      }}
+                      className="flex-1 h-9 text-sm"
+                    >
+                      Remove
+                    </Button>
+                  )}
+                  <Button
+                    onClick={handleSave}
+                    disabled={isLoading || !newActivityName.trim()}
+                    className="flex-1 h-9 text-sm"
+                  >
+                    {isLoading ? "Saving..." : "Save"}
+                  </Button>
+                </div>
               </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="description" className="text-sm">Description (Optional)</Label>
-                <Textarea
-                  id="description"
-                  value={newActivityDescription}
-                  onChange={(e) => setNewActivityDescription(e.target.value)}
-                  placeholder="Add notes about this activity"
-                  rows={2}
-                  className="text-sm"
-                />
-              </div>
-
-              <Button variant="outline" className="w-full bg-transparent h-9 text-sm" onClick={() => setIsCreatingNew(false)}>
-                Back to Activity List
-              </Button>
             </>
           )}
-
-          <div className="flex gap-2">
-            {existingActivity && onDelete && (
-              <Button
-                variant="destructive"
-                onClick={() => {
-                  onDelete()
-                  onOpenChange(false)
-                  resetForm()
-                }}
-                className="flex-1 h-9 text-sm"
-              >
-                Remove
-              </Button>
-            )}
-            <Button
-              onClick={handleSave}
-              disabled={
-                isLoading || (!isCreatingNew && !selectedActivity) || (isCreatingNew && !newActivityName.trim())
-              }
-              className="flex-1 h-9 text-sm"
-            >
-              {isLoading ? "Saving..." : "Save"}
-            </Button>
-          </div>
         </div>
       </DialogContent>
     </Dialog>
