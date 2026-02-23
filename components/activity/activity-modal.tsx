@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Trash2, Plus, Check, CalendarRange } from "lucide-react"
+import { Trash2, Plus, Check, CalendarRange, Search } from "lucide-react"
 import { getSpoonColor, getSpoonLabel } from "@/lib/energy-utils"
 import type { Activity } from "@/lib/types"
 import { format } from "date-fns"
@@ -47,6 +47,7 @@ export function ActivityModal({
   const [newActivityCategory, setNewActivityCategory] = useState("")
   const [newActivityDescription, setNewActivityDescription] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
     async function loadActivities() {
@@ -135,6 +136,7 @@ export function ActivityModal({
     setNewActivitySpoons(2)
     setNewActivityCategory("")
     setNewActivityDescription("")
+    setSearchQuery("")
   }
 
   const getSpoonCategory = (spoons: number): string => {
@@ -156,7 +158,12 @@ export function ActivityModal({
     }
   }
 
-  const groupedActivities = activities.reduce(
+  // Filter activities based on search query
+  const filteredActivities = activities.filter((activity) =>
+    activity.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  )
+
+  const groupedActivities = filteredActivities.reduce(
     (acc, activity) => {
       const spoonKey = activity.spoons.toString()
       if (!acc[spoonKey]) {
@@ -185,20 +192,29 @@ export function ActivityModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[403px]">
-        <DialogHeader>
-          <DialogTitle>{existingActivity ? "Edit Activity" : "Add Activity"}</DialogTitle>
-          <DialogDescription>
+      <DialogContent className="max-w-[383px] max-h-[85vh] flex flex-col">
+        <DialogHeader className="flex-shrink-0">
+          <DialogTitle className="text-lg">{existingActivity ? "Edit Activity" : "Add Activity"}</DialogTitle>
+          <DialogDescription className="text-sm">
             {format(date, "EEEE, MMMM d, yyyy")} at {time}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="space-y-2.5 flex-1 overflow-hidden flex flex-col">
           {!isCreatingNew ? (
             <>
-              <div className="space-y-2">
-                <Label>Select Activity</Label>
-                <div className="border rounded-md max-h-[400px] overflow-y-auto scrollbar-hide bg-card">
+              <div className="space-y-1.5 flex-1 flex flex-col overflow-hidden">
+                <Label className="text-sm flex-shrink-0">Select Activity</Label>
+                <div className="relative flex-shrink-0">
+                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+                  <Input
+                    placeholder="Search activities..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-8 h-9 text-sm"
+                  />
+                </div>
+                <div className="border rounded-md flex-1 overflow-y-auto scrollbar-hide bg-card">
                   <Accordion type="multiple" className="w-full">
                     {energyLevels.map((level) => {
                       const activitiesInLevel = groupedActivities[level.spoons.toString()] || []
@@ -212,10 +228,10 @@ export function ActivityModal({
                           value={`level-${level.spoons}`}
                           className="border-b last:border-b-0"
                         >
-                          <AccordionTrigger className="px-4 py-3 hover:bg-card">
-                            <div className="flex items-center gap-3">
-                              <div className={`w-3 h-3 rounded-full ${colors.bg}`} />
-                              <span className="font-medium text-sm">
+                          <AccordionTrigger className="px-3 py-2 hover:bg-card">
+                            <div className="flex items-center gap-2">
+                              <div className={`w-2.5 h-2.5 rounded-full ${colors.bg}`} />
+                              <span className="font-medium text-xs">
                                 {level.label} - {level.spoons} {level.spoons === 1 ? "Spoon" : "Spoons"}
                               </span>
                               <span className="text-xs text-muted-foreground">
@@ -224,8 +240,8 @@ export function ActivityModal({
                               </span>
                             </div>
                           </AccordionTrigger>
-                          <AccordionContent className="px-4 pb-2">
-                            <div className="space-y-1">
+                          <AccordionContent className="px-3 pb-1.5">
+                            <div className="space-y-0.5">
                               {activitiesInLevel.map((activity) => {
                                 const activityTextColor =
                                   activity.spoons === 5 || activity.spoons === 4 ? "text-white" : "text-foreground"
@@ -239,20 +255,20 @@ export function ActivityModal({
                                 return (
                                   <div
                                     key={activity.id}
-                                    className={`flex items-center justify-between gap-2 px-3 py-2 rounded-md cursor-pointer transition-colors ${colors.bg} bg-opacity-20 hover:bg-opacity-30 border ${
+                                    className={`flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-md cursor-pointer transition-colors ${colors.bg} bg-opacity-20 hover:bg-opacity-30 border ${
                                       selectedActivity === activity.name
                                         ? "border-primary ring-2 ring-primary/20"
                                         : "border-transparent"
                                     }`}
                                     onClick={() => setSelectedActivity(activity.name)}
                                   >
-                                    <div className="flex items-center gap-2 flex-1">
-                                      {selectedActivity === activity.name && <Check className="h-4 w-4 text-primary" />}
-                                      <div className="flex items-center gap-2">
-                                        <span className={`text-sm font-medium ${activityTextColor}`}>
+                                    <div className="flex items-center gap-1.5 flex-1">
+                                      {selectedActivity === activity.name && <Check className="h-3.5 w-3.5 text-primary" />}
+                                      <div className="flex items-center gap-1.5">
+                                        <span className={`text-xs font-medium ${activityTextColor}`}>
                                           {activity.name}
                                         </span>
-                                        <span className={`text-xs ${spoonTextColor}`}>
+                                        <span className={`text-[10px] ${spoonTextColor}`}>
                                           - {activity.spoons} {activity.spoons === 1 ? "Spoon" : "Spoons"}
                                         </span>
                                       </div>
@@ -261,7 +277,7 @@ export function ActivityModal({
                                       <Button
                                         variant="ghost"
                                         size="sm"
-                                        className="h-7 w-7 p-0"
+                                        className="h-6 w-6 p-0"
                                         onClick={(e) => {
                                           e.stopPropagation()
                                           handleDeleteActivity(activity.id, activity.is_default)
@@ -282,115 +298,132 @@ export function ActivityModal({
                 </div>
               </div>
 
-              <Button variant="outline" className="w-full bg-transparent" onClick={() => setIsCreatingNew(true)}>
-                <Plus className="h-4 w-4 mr-2" />
-                Create New Activity
-              </Button>
+              <div className="flex-shrink-0 space-y-2">
+                <div className="grid grid-cols-2 gap-2">
+                  <Button variant="outline" className="bg-transparent h-9 text-sm" onClick={() => setIsCreatingNew(true)}>
+                    <Plus className="h-3.5 w-3.5 mr-1" />
+                    New Activity
+                  </Button>
 
-              {onOpenBulkSchedule && (
+                  {onOpenBulkSchedule && (
+                    <Button
+                      variant="outline"
+                      className="bg-transparent h-9 text-sm"
+                      onClick={() => {
+                        onOpenChange(false)
+                        onOpenBulkSchedule()
+                      }}
+                    >
+                      <CalendarRange className="h-3.5 w-3.5 mr-1" />
+                      Bulk Schedule
+                    </Button>
+                  )}
+                </div>
+
                 <Button
-                  variant="outline"
-                  className="w-full bg-transparent"
-                  onClick={() => {
-                    onOpenChange(false)
-                    onOpenBulkSchedule()
-                  }}
+                  onClick={handleSave}
+                  disabled={isLoading || !selectedActivity}
+                  className="w-full h-9 text-sm"
                 >
-                  <CalendarRange className="h-4 w-4 mr-2" />
-                  Bulk Schedule
+                  {isLoading ? "Saving..." : "Save"}
                 </Button>
-              )}
+              </div>
             </>
           ) : (
             <>
-              <div className="space-y-2">
-                <Label htmlFor="activity-name">Activity Name</Label>
-                <Input
-                  id="activity-name"
-                  value={newActivityName}
-                  onChange={(e) => setNewActivityName(e.target.value)}
-                  placeholder="e.g., Morning Walk"
-                />
+              <div className="flex-1 overflow-y-auto space-y-2">
+                <div className="space-y-1.5">
+                  <Label htmlFor="activity-name" className="text-sm">Activity Name</Label>
+                  <Input
+                    id="activity-name"
+                    value={newActivityName}
+                    onChange={(e) => setNewActivityName(e.target.value)}
+                    placeholder="e.g., Morning Walk"
+                    className="h-9 text-sm"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label htmlFor="spoons" className="text-sm">Energy Level (Spoons)</Label>
+                  <Select
+                    value={newActivitySpoons.toString()}
+                    onValueChange={(value) => setNewActivitySpoons(Number.parseInt(value))}
+                  >
+                    <SelectTrigger id="spoons">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[0, 1, 2, 3, 4, 5].map((spoons) => {
+                        const colors = getSpoonColor(spoons)
+                        return (
+                          <SelectItem key={spoons} value={spoons.toString()}>
+                            <div className="flex items-center gap-2">
+                              <div className={`w-3 h-3 rounded ${colors.bg}`} />
+                              <span>
+                                {getSpoonLabel(spoons)} - {getSpoonCategory(spoons)}
+                              </span>
+                            </div>
+                          </SelectItem>
+                        )
+                      })}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label htmlFor="category" className="text-sm">Category (Optional)</Label>
+                  <Input
+                    id="category"
+                    value={newActivityCategory}
+                    onChange={(e) => setNewActivityCategory(e.target.value)}
+                    placeholder="Auto-filled based on spoons"
+                    className="h-9 text-sm"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label htmlFor="description" className="text-sm">Description (Optional)</Label>
+                  <Textarea
+                    id="description"
+                    value={newActivityDescription}
+                    onChange={(e) => setNewActivityDescription(e.target.value)}
+                    placeholder="Add notes about this activity"
+                    rows={2}
+                    className="text-sm"
+                  />
+                </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="spoons">Energy Level (Spoons)</Label>
-                <Select
-                  value={newActivitySpoons.toString()}
-                  onValueChange={(value) => setNewActivitySpoons(Number.parseInt(value))}
-                >
-                  <SelectTrigger id="spoons">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {[0, 1, 2, 3, 4, 5].map((spoons) => {
-                      const colors = getSpoonColor(spoons)
-                      return (
-                        <SelectItem key={spoons} value={spoons.toString()}>
-                          <div className="flex items-center gap-2">
-                            <div className={`w-3 h-3 rounded ${colors.bg}`} />
-                            <span>
-                              {getSpoonLabel(spoons)} - {getSpoonCategory(spoons)}
-                            </span>
-                          </div>
-                        </SelectItem>
-                      )
-                    })}
-                  </SelectContent>
-                </Select>
-              </div>
+              <div className="flex-shrink-0 space-y-2">
+                <Button variant="outline" className="w-full bg-transparent h-9 text-sm" onClick={() => setIsCreatingNew(false)}>
+                  Back to Activity List
+                </Button>
 
-              <div className="space-y-2">
-                <Label htmlFor="category">Category (Optional)</Label>
-                <Input
-                  id="category"
-                  value={newActivityCategory}
-                  onChange={(e) => setNewActivityCategory(e.target.value)}
-                  placeholder="Auto-filled based on spoons"
-                />
+                <div className="flex gap-2">
+                  {existingActivity && onDelete && (
+                    <Button
+                      variant="destructive"
+                      onClick={() => {
+                        onDelete()
+                        onOpenChange(false)
+                        resetForm()
+                      }}
+                      className="flex-1 h-9 text-sm"
+                    >
+                      Remove
+                    </Button>
+                  )}
+                  <Button
+                    onClick={handleSave}
+                    disabled={isLoading || !newActivityName.trim()}
+                    className="flex-1 h-9 text-sm"
+                  >
+                    {isLoading ? "Saving..." : "Save"}
+                  </Button>
+                </div>
               </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="description">Description (Optional)</Label>
-                <Textarea
-                  id="description"
-                  value={newActivityDescription}
-                  onChange={(e) => setNewActivityDescription(e.target.value)}
-                  placeholder="Add notes about this activity"
-                  rows={3}
-                />
-              </div>
-
-              <Button variant="outline" className="w-full bg-transparent" onClick={() => setIsCreatingNew(false)}>
-                Back to Activity List
-              </Button>
             </>
           )}
-
-          <div className="flex gap-2">
-            {existingActivity && onDelete && (
-              <Button
-                variant="destructive"
-                onClick={() => {
-                  onDelete()
-                  onOpenChange(false)
-                  resetForm()
-                }}
-                className="flex-1"
-              >
-                Remove
-              </Button>
-            )}
-            <Button
-              onClick={handleSave}
-              disabled={
-                isLoading || (!isCreatingNew && !selectedActivity) || (isCreatingNew && !newActivityName.trim())
-              }
-              className="flex-1"
-            >
-              {isLoading ? "Saving..." : "Save"}
-            </Button>
-          </div>
         </div>
       </DialogContent>
     </Dialog>
