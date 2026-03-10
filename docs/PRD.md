@@ -266,7 +266,7 @@ Based on the Spoons Theory, where each "spoon" represents a unit of energy:
 ## File Structure
 
 ### App Directory (Next.js App Router)
-```
+\`\`\`
 app/
 ├── app/
 │   └── page.tsx              # Main application page
@@ -280,10 +280,10 @@ app/
 ├── layout.tsx                # Root layout with providers
 ├── page.tsx                  # Landing page (redirects to app)
 └── globals.css               # Global styles and design tokens
-```
+\`\`\`
 
 ### Components Directory
-```
+\`\`\`
 components/
 ├── activity/
 │   ├── activity-modal.tsx          # Add/edit activity modal
@@ -321,10 +321,10 @@ components/
 │   ├── toast.tsx
 │   └── ... (additional UI primitives)
 └── theme-provider.tsx               # Theme context provider
-```
+\`\`\`
 
 ### Library Directory
-```
+\`\`\`
 lib/
 ├── supabase/
 │   ├── client.ts              # Browser Supabase client
@@ -337,26 +337,26 @@ lib/
 ├── history-manager.ts         # Undo/redo functionality
 ├── types.ts                   # TypeScript type definitions
 └── utils.ts                   # General utility functions
-```
+\`\`\`
 
 ### Configuration Files
-```
+\`\`\`
 ├── middleware.ts              # Next.js middleware (auth)
 ├── next.config.mjs            # Next.js configuration
 ├── tailwind.config.ts         # Tailwind CSS config
 ├── tsconfig.json              # TypeScript configuration
 ├── components.json            # shadcn/ui configuration
 └── package.json               # Dependencies and scripts
-```
+\`\`\`
 
 ### Scripts Directory
-```
+\`\`\`
 scripts/
 ├── 001_create_tables.sql              # Database schema
 ├── 002_create_profile_trigger.sql     # Auto-profile creation
 ├── 003_seed_default_activities.sql    # Default activities
 └── 004_update_spoons_constraint.sql   # Spoons validation
-```
+\`\`\`
 
 ## Component Architecture
 

@@ -16,13 +16,13 @@
   - Source: `next/font/google`
 
 ### Font Configuration
-```typescript
+\`\`\`typescript
 // app/layout.tsx
 import { Geist, Geist_Mono } from 'next/font/google'
 
 const geistSans = Geist({ subsets: ['latin'] })
 const geistMono = Geist_Mono({ subsets: ['latin'] })
-```
+\`\`\`
 
 ### Font Sizes & Hierarchy
 - **Extra Small**: `text-xs` (12px) - Used for compact UI elements, button text
@@ -632,7 +632,7 @@ These colors represent different energy expenditure levels and are central to th
 ### CSS Custom Properties
 All design tokens defined in `app/globals.css`:
 
-```css
+\`\`\`css
 :root {
   --background: #fafafa;
   --foreground: #1a1a1a;
@@ -646,24 +646,24 @@ All design tokens defined in `app/globals.css`:
   --foreground: #fafafa;
   /* ... dark mode overrides */
 }
-```
+\`\`\`
 
 ### Tailwind Theme Integration
 Tailwind v4 uses `@theme inline` to map CSS variables:
 
-```css
+\`\`\`css
 @theme inline {
   --color-background: var(--background);
   --color-primary: var(--primary);
   --radius-lg: var(--radius);
   /* ... all mappings */
 }
-```
+\`\`\`
 
 ### Utility Classes
 
 #### Scrollbar Hide
-```css
+\`\`\`css
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -672,7 +672,7 @@ Tailwind v4 uses `@theme inline` to map CSS variables:
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
-```
+\`\`\`
 
 #### Energy Color Classes
 Dynamically applied via `getSpoonColor()` utility:
@@ -728,7 +728,7 @@ Dynamically applied via `getSpoonColor()` utility:
 ## Design Tokens Summary
 
 ### Spacing Scale
-```
+\`\`\`
 1 = 0.25rem (4px)
 2 = 0.5rem (8px)
 3 = 0.75rem (12px)
@@ -736,33 +736,33 @@ Dynamically applied via `getSpoonColor()` utility:
 6 = 1.5rem (24px)
 8 = 2rem (32px)
 12 = 3rem (48px)
-```
+\`\`\`
 
 ### Font Scale
-```
+\`\`\`
 xs = 0.75rem (12px)
 sm = 0.875rem (14px)
 base = 1rem (16px)
 lg = 1.125rem (18px)
 xl = 1.25rem (20px)
 2xl = 1.5rem (24px)
-```
+\`\`\`
 
 ### Border Radius Scale
-```
+\`\`\`
 sm = 6px
 md = 8px
 lg = 10px
 xl = 14px
 full = 9999px
-```
+\`\`\`
 
 ### Shadow Scale
-```
+\`\`\`
 sm = 0 1px 2px 0 rgb(0 0 0 / 0.05)
 md = 0 4px 6px -1px rgb(0 0 0 / 0.1)
 lg = 0 10px 15px -3px rgb(0 0 0 / 0.1)
-```
+\`\`\`
 
 ## Component-Specific Design Notes
 

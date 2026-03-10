@@ -11,6 +11,9 @@ export default async function HomePage() {
     redirect("/app")
   }
 
+  let shouldRedirectToApp = false
+  let shouldRedirectToLogin = false
+
   try {
     const supabase = await createClient()
     const {
@@ -18,13 +21,21 @@ export default async function HomePage() {
     } = await supabase.auth.getUser()
 
     if (user) {
-      redirect("/app")
+      shouldRedirectToApp = true
     } else {
-      redirect("/auth/login")
+      shouldRedirectToLogin = true
     }
   } catch (error) {
     // If auth check fails, redirect to app anyway
     console.error("Auth check failed:", error)
+    shouldRedirectToApp = true
+  }
+
+  // Call redirect outside of try-catch since redirect() throws internally
+  if (shouldRedirectToApp) {
     redirect("/app")
+  }
+  if (shouldRedirectToLogin) {
+    redirect("/auth/login")
   }
 }
