@@ -11,6 +11,8 @@ export default async function HomePage() {
     redirect("/app")
   }
 
+  let redirectTo = "/auth/login"
+
   try {
     const supabase = await createClient()
     const {
@@ -18,13 +20,14 @@ export default async function HomePage() {
     } = await supabase.auth.getUser()
 
     if (user) {
-      redirect("/app")
-    } else {
-      redirect("/auth/login")
+      redirectTo = "/app"
     }
   } catch (error) {
     // If auth check fails, redirect to app anyway
     console.error("Auth check failed:", error)
-    redirect("/app")
+    redirectTo = "/app"
   }
+
+  // Call redirect outside try-catch since redirect() throws internally in Next.js
+  redirect(redirectTo)
 }
