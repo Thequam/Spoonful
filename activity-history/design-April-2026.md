@@ -48,7 +48,7 @@ Only two font families are used throughout the entire app.
 All tokens are defined in `app/globals.css` under `:root` (light mode) and `.dark` (dark mode).
 
 #### Light Mode
-```css
+\`\`\`css
 :root {
   --background: #fafafa;
   --foreground: #1a1a1a;
@@ -97,10 +97,10 @@ All tokens are defined in `app/globals.css` under `:root` (light mode) and `.dar
   --sidebar-border: #d4d4d4;
   --sidebar-ring: #00a3b8;
 }
-```
+\`\`\`
 
 #### Dark Mode
-```css
+\`\`\`css
 .dark {
   --background: #1a1a1a;
   --foreground: #fafafa;
@@ -134,7 +134,7 @@ All tokens are defined in `app/globals.css` under `:root` (light mode) and `.dar
   --sidebar-border: #333333;
   --sidebar-ring: #00a3b8;
 }
-```
+\`\`\`
 
 ### Colour Usage Summary
 
@@ -215,27 +215,27 @@ The app uses Tailwind's default spacing scale. Key values:
 - Height matches time slot: `h-12`
 
 ### Time Slot (Empty)
-```
+\`\`\`
 height: h-12 (48px)
 border: border-b border-r border-border/40
 background: bg-background
 hover: hover:bg-muted/50
 cursor: cursor-pointer
 transition: transition-colors
-```
+\`\`\`
 
 ### Time Slot (Occupied)
-```
+\`\`\`
 background: [energy colour for the spoon level]
 text-color: [energy foreground colour]
 padding: p-2
 font: text-xs font-semibold
 overflow: hidden
 position: relative
-```
+\`\`\`
 
 ### Delete Button on Time Slot
-```css
+\`\`\`css
 position: absolute;
 top: 4px;   /* top-1 */
 right: 4px; /* right-1 */
@@ -247,38 +247,38 @@ filter: drop-shadow(0px 1px 0px rgba(255,255,255,0.3))
         drop-shadow(0px -1px 0px rgba(0,0,0,0.2));
 background: transparent;
 border: none;
-```
+\`\`\`
 On hover: `opacity: 0.9`
 
 ### Button Variants
 
 #### Primary
-```
+\`\`\`
 bg-primary text-primary-foreground
 hover:bg-primary/90
 rounded-md px-4 py-2 text-sm font-medium
-```
+\`\`\`
 
 #### Outline
-```
+\`\`\`
 border border-input bg-transparent text-foreground
 hover:bg-accent hover:text-accent-foreground
 rounded-md px-4 py-2 text-sm font-medium
-```
+\`\`\`
 
 #### Ghost
-```
+\`\`\`
 bg-transparent text-foreground
 hover:bg-accent hover:text-accent-foreground
 rounded-md px-4 py-2 text-sm font-medium
-```
+\`\`\`
 
 #### Destructive
-```
+\`\`\`
 bg-destructive text-destructive-foreground
 hover:bg-destructive/90
 rounded-md px-4 py-2 text-sm font-medium
-```
+\`\`\`
 
 #### Sizes
 | Size | Classes |
@@ -289,13 +289,13 @@ rounded-md px-4 py-2 text-sm font-medium
 | Icon | `h-10 w-10` |
 
 ### Modal / Dialog
-```
+\`\`\`
 backdrop: bg-black/80
 container: bg-card border border-border rounded-lg shadow-lg
 padding: p-6
 max-height: max-h-[85vh]
 overflow: overflow-y-auto (content area)
-```
+\`\`\`
 
 **Size variants:**
 | Variant | Max Width | Used For |
@@ -305,12 +305,12 @@ overflow: overflow-y-auto (content area)
 | Large | max-w-lg (512px) | Bulk schedule |
 
 ### Sheet (Left Drawer Menu)
-```
+\`\`\`
 side: left
 width: w-[300px]
 background: bg-card
 padding: p-6
-```
+\`\`\`
 Menu item hover: `hover:bg-primary/10 hover:text-primary rounded-md px-3 py-2`
 
 ### Accordion (Activity Groups)
@@ -320,18 +320,18 @@ Menu item hover: `hover:bg-primary/10 hover:text-primary rounded-md px-3 py-2`
 - Item spacing: `space-y-0.5`
 
 ### Activity List Item (in Modal / Drag Panel)
-```
+\`\`\`
 padding: px-2.5 py-1.5
 border-radius: rounded-md
 background: [energy colour at 20% opacity]
 border: border border-transparent
 font: text-xs font-medium
 cursor: cursor-pointer
-```
+\`\`\`
 Selected state: `border-primary ring-2 ring-primary/20`
 
 ### Progress Bar
-```css
+\`\`\`css
 /* Container */
 height: 6px; /* h-1.5 */
 width: 95%;
@@ -344,18 +344,18 @@ border-radius: 9999px;
 background: var(--primary);     /* normal */
 background: var(--destructive); /* when over limit */
 transition: width 0.3s ease, background-color 0.3s ease;
-```
+\`\`\`
 
 ### Checkbox
-```
+\`\`\`
 size: h-4 w-4
 border: border border-primary
 checked: bg-primary text-primary-foreground
 border-radius: rounded-sm
-```
+\`\`\`
 
 ### Input / Textarea
-```
+\`\`\`
 background: bg-background
 border: border border-input
 border-radius: rounded-md
@@ -363,7 +363,7 @@ padding: px-3 py-2
 height: h-10 (input) or auto (textarea)
 font: text-sm
 focus: ring-2 ring-ring ring-offset-2
-```
+\`\`\`
 
 ### Select
 - Trigger styled as outline button.
@@ -371,12 +371,12 @@ focus: ring-2 ring-ring ring-offset-2
 - Item: `px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground`
 
 ### Tabs (Week / Day toggle)
-```
+\`\`\`
 tab list: bg-muted rounded-md p-1
 active tab: bg-background shadow-sm rounded-sm
 inactive tab: text-muted-foreground
 font: text-sm font-medium
-```
+\`\`\`
 
 ---
 
@@ -435,7 +435,7 @@ font: text-sm font-medium
 ## 8. Animations & Transitions
 
 ### Modal Open/Close
-```css
+\`\`\`css
 /* Backdrop */
 transition: opacity 200ms ease;
 from: opacity 0;
@@ -445,23 +445,23 @@ to: opacity 1;
 transition: transform 200ms ease, opacity 200ms ease;
 from: transform scale(0.95), opacity 0;
 to: transform scale(1), opacity 1;
-```
+\`\`\`
 
 ### Sidebar Collapse
-```css
+\`\`\`css
 transition: width 300ms ease, opacity 300ms ease;
-```
+\`\`\`
 
 ### Accordion Expand
-```css
+\`\`\`css
 transition: height 200ms ease;
 chevron: transition: transform 200ms ease;
-```
+\`\`\`
 
 ### Progress Bar Fill
-```css
+\`\`\`css
 transition: width 300ms ease, background-color 300ms ease;
-```
+\`\`\`
 
 ### Drag Operations
 - Drag source: `opacity: 0.5` during drag
@@ -469,11 +469,11 @@ transition: width 300ms ease, background-color 300ms ease;
 - Touch clone: translates with `transform: translate(x, y)` following finger position
 
 ### Toast Slide In
-```css
+\`\`\`css
 from: transform translateY(100%), opacity 0;
 to: transform translateY(0), opacity 1;
 duration: 200ms ease-out;
-```
+\`\`\`
 
 ### Hover State Transitions
 - All hover changes: `transition-colors duration-150`
@@ -484,9 +484,9 @@ duration: 200ms ease-out;
 ## 9. Today Highlight
 
 The current day's column in the week view receives:
-```css
+\`\`\`css
 background: rgba(0, 163, 184, 0.1); /* primary/10 */
-```
+\`\`\`
 Applied to both the day header and all time slots in the column.
 
 ---
