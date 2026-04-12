@@ -56,7 +56,7 @@ Sleep is a special sub-category of 0-spoon activities. When an activity is named
 ## 4. Data Models
 
 ### Profile
-```
+\`\`\`
 id           UUID (primary key, linked to auth user)
 display_name TEXT
 daily_limit  INTEGER (default: 18)
@@ -64,10 +64,10 @@ weekday_limit INTEGER (default: 90)
 weekend_limit INTEGER (default: 36)
 created_at   TIMESTAMP
 updated_at   TIMESTAMP
-```
+\`\`\`
 
 ### Activity
-```
+\`\`\`
 id           UUID (primary key, auto-generated)
 user_id      UUID (foreign key to profile)
 name         TEXT (unique per user)
@@ -76,10 +76,10 @@ category     TEXT (optional label)
 description  TEXT (optional, nullable)
 is_default   BOOLEAN (default: false)
 created_at   TIMESTAMP
-```
+\`\`\`
 
 ### Timetable Entry
-```
+\`\`\`
 id            UUID (primary key, auto-generated)
 user_id       UUID (foreign key to profile)
 week_start    DATE (Monday of the week, ISO format)
@@ -90,7 +90,7 @@ activity_name TEXT
 spoons        INTEGER (0–5)
 created_at    TIMESTAMP
 updated_at    TIMESTAMP
-```
+\`\`\`
 
 ### Default Activities (Seeded on First Use)
 The following 24 activities are pre-seeded for every new user. See `activity-history/activities-export.md` for the full list including all user-created activities.
@@ -131,7 +131,7 @@ The following 24 activities are pre-seeded for every new user. See `activity-his
 ## 5. App Layout
 
 ### Overall Structure
-```
+\`\`\`
 Root Layout
 ├── Theme Provider (light/dark)
 └── App Page (/app)
@@ -140,7 +140,7 @@ Root Layout
     │   ├── Calendar (WeekView or DayView)
     │   └── Dashboard Sidebar (collapsible, right side on desktop)
     └── Modals (Activity, Bulk Schedule, Date Picker, Settings, Load Week)
-```
+\`\`\`
 
 ### Header
 - Fixed to top of the app.
@@ -387,7 +387,7 @@ Accessed from the hamburger menu.
 
 ## 16. File & Component Structure
 
-```
+\`\`\`
 app/
 ├── app/page.tsx              # Main application (all state lives here)
 ├── auth/
@@ -444,14 +444,14 @@ lib/
 ├── history-manager.ts        # Undo/redo stack implementation
 ├── types.ts                  # TypeScript interfaces
 └── utils.ts                  # cn() and other shared utilities
-```
+\`\`\`
 
 ---
 
 ## 17. Key Utility Functions
 
 ### `energy-utils.ts`
-```typescript
+\`\`\`typescript
 getEnergyColor(spoons: number, activityName?: string): string
 // Returns Tailwind class or hex for background colour
 
@@ -460,10 +460,10 @@ getEnergyForeground(spoons: number): string
 
 getEnergyLabel(spoons: number): string
 // Returns "Recharging", "Low Energy", "Medium Energy" etc.
-```
+\`\`\`
 
 ### `date-utils.ts`
-```typescript
+\`\`\`typescript
 getWeekStart(date: Date): Date
 // Returns the Monday of the week containing the given date
 
@@ -472,10 +472,10 @@ formatWeekRange(weekStart: Date): string
 
 getWeekDays(weekStart: Date): Date[]
 // Returns array of 7 Date objects for Mon–Sun
-```
+\`\`\`
 
 ### `history-manager.ts`
-```typescript
+\`\`\`typescript
 class HistoryManager {
   push(snapshot: TimetableEntry[]): void
   undo(): TimetableEntry[] | null
@@ -484,13 +484,13 @@ class HistoryManager {
   canRedo(): boolean
   clear(): void
 }
-```
+\`\`\`
 
 ---
 
 ## 18. Types
 
-```typescript
+\`\`\`typescript
 interface Activity {
   id: string
   user_id: string
@@ -528,7 +528,7 @@ interface DragData {
   spoons: number
   sourceSlot?: { date: string; timeslot: string }
 }
-```
+\`\`\`
 
 ---
 
@@ -536,7 +536,7 @@ interface DragData {
 
 All state lives in the main `app/app/page.tsx` component. No external state library is used.
 
-```typescript
+\`\`\`typescript
 // Core data
 const [entries, setEntries] = useState<TimetableEntry[]>([])
 const [activities, setActivities] = useState<Activity[]>([])
@@ -567,7 +567,7 @@ const dataPersistenceRef = useRef<DataPersistence | null>(null)
 const historyManagerRef = useRef<HistoryManager | null>(null)
 const autoSaveTimerRef = useRef<NodeJS.Timeout | null>(null)
 const touchCloneRef = useRef<HTMLElement | null>(null)
-```
+\`\`\`
 
 ---
 
