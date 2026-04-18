@@ -1119,3 +1119,75 @@ Spoon scale: 0 = Sleep/Rest · 1 = Very Low · 2 = Low · 3 = Medium · 4 = High
 | 2026-04-12 | Sun | 02:00 | Sleep | 0 |
 | 2026-04-12 | Sun | 04:00 | Sleep | 0 |
 | 2026-04-12 | Sun | 06:00 | Sleep | 0 |
+| 2026-04-13 | Mon | 00:00 | Woods Easy | 3 |
+| 2026-04-13 | Mon | 02:00 | Sleep | 0 |
+| 2026-04-13 | Mon | 04:00 | Sleep | 0 |
+| 2026-04-13 | Mon | 06:00 | Sleep | 0 |
+| 2026-04-13 | Mon | 08:00 | Sleep | 0 |
+| 2026-04-13 | Mon | 10:00 | Walk Up Bush | 4 |
+| 2026-04-13 | Mon | 12:00 | Car Trouble | 4 |
+| 2026-04-13 | Mon | 14:00 | Car Trouble | 4 |
+| 2026-04-13 | Mon | 16:00 | Woods | 4 |
+| 2026-04-13 | Mon | 18:00 | Woods Easy | 3 |
+| 2026-04-13 | Mon | 20:00 | Man United Indoors | 3 |
+| 2026-04-13 | Mon | 22:00 | Woods | 4 |
+| 2026-04-14 | Tue | 00:00 | Sleep | 0 |
+| 2026-04-14 | Tue | 02:00 | Sleep | 0 |
+| 2026-04-14 | Tue | 04:00 | Sleep | 0 |
+| 2026-04-14 | Tue | 06:00 | Sleep | 0 |
+| 2026-04-14 | Tue | 08:00 | Sleep | 0 |
+| 2026-04-14 | Tue | 10:00 | Wake Up Chill Woods | 2 |
+| 2026-04-14 | Tue | 12:00 | Woods Easy | 3 |
+| 2026-04-14 | Tue | 14:00 | Woods Admin | 4 |
+| 2026-04-14 | Tue | 16:00 | Woods Admin | 4 |
+| 2026-04-14 | Tue | 18:00 | Woods Rest | 2 |
+| 2026-04-14 | Tue | 20:00 | Woods Rest | 2 |
+| 2026-04-14 | Tue | 22:00 | Woods Easy | 3 |
+| 2026-04-15 | Wed | 00:00 | Sleep | 0 |
+| 2026-04-15 | Wed | 02:00 | Sleep | 0 |
+| 2026-04-15 | Wed | 04:00 | Sleep | 0 |
+| 2026-04-15 | Wed | 06:00 | Sleep | 0 |
+| 2026-04-15 | Wed | 08:00 | Sleep | 0 |
+| 2026-04-15 | Wed | 10:00 | Woods Admin Seizure | 5 |
+| 2026-04-15 | Wed | 12:00 | Woods Admin Seizure | 5 |
+| 2026-04-15 | Wed | 14:00 | Woods Rest | 2 |
+| 2026-04-15 | Wed | 16:00 | MIT Course | 3 |
+| 2026-04-15 | Wed | 18:00 | Woods Easy | 3 |
+| 2026-04-15 | Wed | 20:00 | Woods Easy | 3 |
+| 2026-04-15 | Wed | 22:00 | Woods Rest | 2 |
+| 2026-04-16 | Thu | 00:00 | Chilled Convo | 2 |
+| 2026-04-16 | Thu | 02:00 | Sleep | 0 |
+| 2026-04-16 | Thu | 04:00 | Sleep | 0 |
+| 2026-04-16 | Thu | 06:00 | Wake up - Chill | 1 |
+| 2026-04-16 | Thu | 08:00 | Car Towing Mission | 4 |
+| 2026-04-16 | Thu | 10:00 | Car Towing Mission | 4 |
+| 2026-04-16 | Thu | 12:00 | Car Towing Mission | 4 |
+| 2026-04-16 | Thu | 14:00 | Chilled Convo | 2 |
+| 2026-04-16 | Thu | 16:00 | Mac Visit | 3 |
+| 2026-04-16 | Thu | 18:00 | Convo Balcony | 3 |
+| 2026-04-16 | Thu | 20:00 | Convo Balcony | 3 |
+| 2026-04-16 | Thu | 22:00 | Hang Out | 4 |
+| 2026-04-17 | Fri | 00:00 | Sleep | 0 |
+| 2026-04-17 | Fri | 02:00 | Sleep | 0 |
+| 2026-04-17 | Fri | 04:00 | Sleep | 0 |
+| 2026-04-17 | Fri | 06:00 | Sleep | 0 |
+| 2026-04-17 | Fri | 08:00 | Wake up - Chill | 1 |
+| 2026-04-17 | Fri | 10:00 | Cooked Ate Rested | 2 |
+| 2026-04-17 | Fri | 12:00 | Chilled Convo | 2 |
+| 2026-04-17 | Fri | 14:00 | Airport Mission | 3 |
+| 2026-04-17 | Fri | 16:00 | Airport Mission | 3 |
+| 2026-04-17 | Fri | 18:00 | Rested - TV | 1 |
+| 2026-04-17 | Fri | 20:00 | Rested - TV | 1 |
+| 2026-04-17 | Fri | 22:00 | Sleep | 0 |
+| 2026-04-18 | Sat | 00:00 | Sleep | 0 |
+| 2026-04-18 | Sat | 02:00 | Sleep | 0 |
+| 2026-04-18 | Sat | 04:00 | Sleep | 0 |
+| 2026-04-18 | Sat | 06:00 | Sleep | 0 |
+| 2026-04-18 | Sat | 08:00 | Wake up - Chill | 1 |
+| 2026-04-18 | Sat | 10:00 | Rested - TV | 1 |
+| 2026-04-18 | Sat | 12:00 | Rested Got Ready | 2 |
+| 2026-04-18 | Sat | 14:00 | Mac Visit | 3 |
+| 2026-04-19 | Sun | 00:00 | Sleep | 0 |
+| 2026-04-19 | Sun | 02:00 | Sleep | 0 |
+| 2026-04-19 | Sun | 04:00 | Sleep | 0 |
+| 2026-04-19 | Sun | 06:00 | Sleep | 0 |
